@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title>分销管理-分销记录</title>
+		<meta name="renderer" content="webkit">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
+		<link rel="stylesheet" href="../../../layuiadmin/layui/css/layui.css" media="all">
+		<link rel="stylesheet" href="../../../layuiadmin/style/admin.css" media="all">
+		<link rel="stylesheet" href="../../../layuiadmin/lib/extend/soulTable/soulTable.css" media="all" />
+	</head>
+
+	<body>
+		<div class="layui-fluid ">
+			<a class="layui-btn layui-bg-cyan" onClick="javascript:history.go(-1)">
+				<i class="layui-icon layui-icon-return"></i>返回
+			</a>
+		</div>
+		<div class="layui-fluid">
+			<div class="layui-card">
+				<div class="layui-card-body">
+					<table id="LAY-user-manage" lay-filter="LAY-user-manage"></table>
+					<script type="text/html" id="table-useradmin-webuser">
+						<a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="Settlement1"><i class="layui-icon layui-icon-more"></i>查看下集</a>
+					</script>
+				</div>
+			</div>
+			
+		</div>
+
+		<script src="../../../layuiadmin/layui/layui.js"></script>
+		<script>
+			layui.config({
+				base: '../../../layuiadmin/' //静态资源所在路径
+			}).extend({
+				index: 'lib/index', //主入口模块
+			}).use(['index','table', 'form', 'soulTable','pubilc'], function() {
+				
+				var $ = layui.$,
+					form = layui.form,
+					table = layui.table,
+					soulTable = layui.soulTable,
+					pubilc = layui.pubilc,
+					tool = pubilc.tool;
+				/****************************************初始化*******************************************/
+				var id = tool.getMethod('itemId');
+				
+				tool.init({
+					id:'LAY-user-manage',
+					fieldJson:{}
+				})
+				/****************************************数据获取绑定*******************************************/
+				
+				
+				// 后台分页
+				tool.tableAjax({
+					url: '/user/subordinate?pid='+id, //模拟接口
+					cols: [[
+			            {type: 'checkbox', title: '##', fixed: 'left'},
+			            {field: 'id', title: 'ID', width: 100, fixed: 'left', totalRowText: '合计'},
+						{field: 'user_name',width: 140,title: '盛世通用户'}, 
+						{field: 'my_invite_code',width: 140,title: '邀请码'}, 
+						{field: 'mobile',width: 140,title: '手机号'}, 
+						{field: 'amount', title: '账户余额', width: 180, fixed: 'right', totalRow: true},
+						{title: '操作',width: 350,align: 'center',fixed:'right',toolbar: '#table-useradmin-webuser'}
+					]],
+					totalRow: true,
+        			fixTotal: false,
+					handleData: function(res){
+						var t = {};
+						try{
+							t.code=res.code;t.msg = res.msg;t.count = res.data.length;t.data = res.data;
+//								t.data = opt.handleRes(t.data)
+						}catch{
+							t.code=-1;
+						}
+						return t;
+						/*************************************/
+		    		},
+//		    		limit:1000,
+					success:function(){
+						layer.photos({
+						  	photos: '.layui-table',
+						  	anim: 5 
+						}); 
+					}
+				})
+				/****************************************监听工具条*******************************************/
+				
+				//监听工具条
+				table.on('tool(LAY-user-manage)', function(obj) {
+					var data = obj.data;
+					if(obj.event === 'Settlement1') {
+						var itemId = data.id;
+						location.href = "ListSee.html?itemId=" +itemId
+					}
+				});
+			});
+		</script>
+	</body>
+
+</html>

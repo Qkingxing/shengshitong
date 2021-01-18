@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title>产品协议管理</title>
+		<meta name="renderer" content="webkit">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
+		<link rel="stylesheet" href="../../../layuiadmin/layui/css/layui.css" media="all">
+		<style>
+			.layui-layedit{
+				min-height:700px;
+			}
+			#LAY_layedit_1{
+				min-height:700px;
+			}
+		    .tox .tox-dialog{
+		        border: none;
+		    }
+			.tox .tox-dialog,
+		    .tox .tox-button,
+		    .tox .tox-textarea,
+		    .tox .tox-textfield,
+		    .tox .tox-selectfield select,
+		    .tox .tox-toolbar-textfield{
+		        border-radius: 0;
+		    }
+		    .tox .tox-dialog-wrap__backdrop{
+		        background-color: rgba(0, 0, 0, .3);
+		    }
+		    #edit{
+				min-height:500px;
+				width:100%;
+			}
+		    
+		</style>
+	</head>
+
+	<body>
+		<div class="layui-form" lay-filter="formArea" id="formArea" style="padding: 20px 30px 0 0;">
+			<form class="layui-form"  lay-filter="component-form-group">
+				<div class="layui-form-item">
+					<label class="layui-form-label">文章标题</label>
+					<div class="layui-input-inline">
+						<input type="text" name="title" lay-verify="" autocomplete="off" placeholder="请输入文章标题" class="layui-input">
+					</div>
+				</div>
+				<label class="layui-form-label">产品相关参数</label>
+				<div class="layui-form-item">
+					<label class="layui-form-label">合约编号</label>
+					<div class="layui-input-inline">
+						<input type="text" name="" lay-verify="" value = '$BH' disabled="disabled"  autocomplete="off" placeholder="" class="layui-input">
+					</div>
+				</div>
+				<div class="layui-form-item">
+					<label class="layui-form-label">当日时间</label>
+					<div class="layui-input-inline">
+						<input type="text" name="" lay-verify="" value = '$NowTime' disabled="disabled"  autocomplete="off" placeholder="" class="layui-input">
+					</div>
+					<label class="layui-form-label">客户名称</label>
+					<div class="layui-input-inline">
+						<input type="text" name="" lay-verify="" value = '$Name' disabled="disabled"  autocomplete="off" placeholder="" class="layui-input">
+					</div>
+					<label class="layui-form-label">客户身份证</label>
+					<div class="layui-input-inline">
+						<input type="text" name="" lay-verify="" value = '$idCard' disabled="disabled"  autocomplete="off" placeholder="" class="layui-input">
+					</div>
+				</div>
+				<div class="layui-form-item">
+					<label class="layui-form-label">客户手机号</label>
+					<div class="layui-input-inline">
+						<input type="text" name="" lay-verify="" value = '$phone' disabled="disabled"  autocomplete="off" placeholder="" class="layui-input">
+					</div>
+					<label class="layui-form-label">客户邮箱</label>
+					<div class="layui-input-inline">
+						<input type="text" name="" lay-verify="" value = '$email' disabled="disabled"  autocomplete="off" placeholder="" class="layui-input">
+					</div>
+					<label class="layui-form-label">客户住址</label>
+					<div class="layui-input-inline">
+						<input type="text" name="" lay-verify="" value = '$address' disabled="disabled"  autocomplete="off" placeholder="" class="layui-input">
+					</div>
+				</div>
+				<div class="layui-form-item">
+					<label class="layui-form-label">金额</label>
+					<div class="layui-input-inline">
+						<input type="text" name="" lay-verify="" value = '$Money' disabled="disabled"  autocomplete="off" placeholder="" class="layui-input">
+					</div>
+					<label class="layui-form-label">金额大写</label>
+					<div class="layui-input-inline">
+						<input type="text" name="" lay-verify="" value = '$MoneyD' disabled="disabled"  autocomplete="off" placeholder="" class="layui-input">
+					</div>
+				
+					<label class="layui-form-label">截止日期</label>
+					<div class="layui-input-inline">
+						<input type="text" name="" lay-verify="" value = '$endTime' disabled="disabled"  autocomplete="off" placeholder="" class="layui-input">
+					</div>
+				</div>
+				<div class="layui-form-item">
+					<label class="layui-form-label">收款账号</label>
+					<div class="layui-input-inline">
+						<input type="text" name="" lay-verify="" value = '$Collection' disabled="disabled"  autocomplete="off" placeholder="" class="layui-input">
+					</div>
+					<label class="layui-form-label">开户名称</label>
+					<div class="layui-input-inline">
+						<input type="text" name="" lay-verify="" value = '$Collection_name' disabled="disabled"  autocomplete="off" placeholder="" class="layui-input">
+					</div>
+					<label class="layui-form-label">开户行</label>
+					<div class="layui-input-inline">
+						<input type="text" name="" lay-verify="" value = '$Collection_address' disabled="disabled"  autocomplete="off" placeholder="" class="layui-input">
+					</div>
+				</div>
+				<div class="layui-form-item layui-form-text">
+		            <label class="layui-form-label">例子</label>
+		            <div class="layui-input-block">
+						<input type="text" name="" lay-verify="" value = '测试文案测试文案$GoodsName测试文案测试文案$SYLV测试文案测试文案$NowTime' disabled="disabled"  autocomplete="off" placeholder="" class="layui-input">
+					</div>
+		            <!--<div class="layui-input-block" style="line-height: 20px;">
+		            	
+		            	<!--<label class="layui-form-label">测试文案测试文案$GoodsName测试文案测试文案$SYLV测试文案测试文案$NowTime</label>-->
+		            	<!--<p >测试文案测试文案$GoodsName测试文案测试文案$SYLV测试文案测试文案$NowTime</p>
+		            </div>-->
+		       	</div>
+				<div class="layui-form-item layui-form-text">
+		            <label class="layui-form-label">协议内容</label>
+		            <div class="layui-input-block">
+		              	<textarea name="" id="edit"></textarea>
+		            </div>
+		       	</div>
+			
+			</form>
+			<div class="layui-form-item layui-layout-admin">
+				<div class="layui-input-block">
+					<button  class="layui-btn"  id='sdwy'>立即修改</button>
+				</div>
+			</div>
+			
+		</div>
+
+		<script src="../../../layuiadmin/layui/layui.js"></script>
+		<script>
+			var layeditss,indexss;
+			function getlayedit(){
+				var con = layeditss.getContent(indexss);
+  				return con;
+			}
+			layui.config({
+				base: '../../../layuiadmin/' //静态资源所在路径
+			}).extend({
+				index: 'lib/index' //主入口模块
+			}).use(['index', 'form', 'laydate', 'upload', 'pubilc', 'treeSelect','layedit','xmSelect'], function() {
+				var $ = layui.$,
+					form = layui.form,
+					pubilc = layui.pubilc,
+					laydate = layui.laydate,
+					upload = layui.upload,
+					treeSelect = layui.treeSelect,
+					layedit = layui.layedit,
+					xmSelect = layui.xmSelect,
+					tool = pubilc.tool;
+
+				/****************************************初始化*******************************************/
+				//获取页面参数
+				layui.extend({
+			        tinymce: '{/}../../tinymce/tinymce'
+			    }).use(['tinymce', 'util', 'layer'], function () {
+			        var t = layui.tinymce
+			        , util = layui.util
+			        , layer = layui.layer
+			        , $ = layui.$
+			
+			        var edit = t.render({
+			            elem: "#edit"
+			            , height: 500
+			            // ...
+			            // 其余配置可参考官方文档
+			        },function(opt,edit){
+			            //加载完成后回调
+			        });
+			
+			        tool.ajax({
+						url:'product/contractShow',
+						success:function(res){
+							$('input[name="title"]').val(res.title);
+//							t.get('#edit').setContent(res.e)
+							$('#edit').val(res.e);
+						}
+					})
+			    })
+				
+				var type = tool.getMethod('type');
+				tool.init({
+					isSreach: false
+				})
+				
+//				layedit.set({
+//				  	uploadImage: {
+//					    imgUrl: {
+//					    	url: 'https://sst.dalaokj.com/',
+//					    	type:'post',
+//					    	token:tool.options.token
+//					    },
+//				  	}
+//				});
+//    			indexss = layedit.build('demo'); //建立编辑器
+//    			layeditss = layedit;
+      			
+//    			tool.ajax({
+//					url:'product/contractShow',
+//					success:function(res){
+//						$('input[name="title"]').val(res.title);
+//						$('#demo').html(res.e);
+//						indexss = layedit.build('demo'); //建立编辑器
+//    			layeditss = layedit;
+////						layedit.setContent(layeditss, res.e, false);
+//					}
+//				})
+      			
+      			$('#sdwy').on('click',function(){
+					
+					var data = {contractId:1};
+					data.title = $('input[name="title"]').val();
+					data.e = $('#edit').val();
+					tool.ajax({
+						url:'product/contract',
+						data:data,
+						success:function(res){
+							layer.msg('修改成功')
+						}
+					})
+				})
+      			
+				
+				
+
+			})
+		</script>
+	</body>
+
+</html>

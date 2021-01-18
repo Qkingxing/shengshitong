@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title>查看图片</title>
+		<meta name="renderer" content="webkit">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
+		<link rel="stylesheet" href="../../../layuiadmin/layui/css/layui.css" media="all">
+		<link rel="stylesheet" href="../../../layuiadmin/style/admin.css" media="all">
+		<link rel="stylesheet" href="../../../layuiadmin/lib/extend/soulTable/soulTable.css" media="all" />
+		<style>
+			html,#layer-photos-demo{
+				width:100%;
+				height:100%;
+			}
+			#layer-photos-demo img{
+				width:20%;
+				margin:2.5% 50px;
+			}
+		</style>
+	</head>
+
+	<body>
+
+		<div class="layui-fluid">
+			<div class="layui-card">
+				<div id="layer-photos-demo" class="layer-photos-demo">
+				  	
+				</div>
+				<script id="imgArea" type="text/html">
+				  	{{#  layui.each(d, function(index, item){ }}
+				  		<img layer-pid="" layer-src="{{item.imgsrc}}" src="{{item.imgsrc_small}}" alt="图片名">
+				  		<!--<p>{{index}}</p>-->
+				  	{{#  }); }}
+				  	<!--<p>{{d}}</p>-->
+				</script>
+				<!--<img layer-pid="" layer-src="{{item.imgsrc}}" src="{{item.imgsrc_small}}" alt="图片名">-->
+			</div>
+		</div>
+
+		<script src="../../../layuiadmin/layui/layui.js"></script>
+		<script>
+			layui.config({
+				base: '../../../layuiadmin/' //静态资源所在路径
+			}).extend({
+				index: 'lib/index', //主入口模块
+			}).use(['index','laytpl','pubilc'], function() {
+				
+				var $ = layui.$,
+					laytpl = layui.laytpl,
+					pubilc = layui.pubilc,
+					tool = pubilc.tool;
+				/****************************************初始化*******************************************/
+				//获取页面参数
+				var data = decodeURI(tool.getMethod('data'));
+//				var data = [
+//					{imgsrc:'img/1.jpg',imgsrc_small:'img/1.jpg'},
+//					{imgsrc:'img/2.jpg',imgsrc_small:'img/2.jpg'},
+//					{imgsrc:'img/1.jpg',imgsrc_small:'img/1.jpg'},
+//					{imgsrc:'img/2.jpg',imgsrc_small:'img/2.jpg'},
+//					{imgsrc:'img/1.jpg',imgsrc_small:'img/1.jpg'},
+//					{imgsrc:'img/2.jpg',imgsrc_small:'img/2.jpg'},
+//				]
+				var getTpl = imgArea.innerHTML,
+				view = document.getElementById('layer-photos-demo');
+				laytpl(getTpl).render(data, function(html){
+				  	view.innerHTML = html;
+				  	layer.photos({
+					  	photos: '#layer-photos-demo',
+					  	anim: 5 
+					}); 
+				});
+				/****************************************请求数据*******************************************/
+				
+			});
+		</script>
+	</body>
+
+</html>

@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title>订单管理</title>
+		<meta name="renderer" content="webkit">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
+		<link rel="stylesheet" href="../../../layuiadmin/layui/css/layui.css" media="all">
+		<link rel="stylesheet" href="../../../layuiadmin/style/admin.css" media="all">
+		<link rel="stylesheet" href="../../../layuiadmin/lib/extend/soulTable/soulTable.css" media="all" />
+	</head>
+
+	<body>
+		<div class="layui-fluid ">
+			<a class="layui-btn layui-bg-cyan" onClick="javascript:history.go(-1)">
+				<i class="layui-icon layui-icon-return"></i>返回
+			</a>
+		</div>
+		<div class="layui-fluid">
+			<div class="layui-card">
+				<div class="layui-card-body">
+					<table id="LAY-user-manage" lay-filter="LAY-user-manage"></table>
+					<div id='component'></div>
+					<script type="text/html" id="table-useradmin-webuser">
+						{{#  if(d.OrderStatus==0){ }}
+							<a class="layui-btn layui-bg-green layui-btn-xs" lay-event="edit1"><i class="layui-icon layui-icon-addition"></i>上传凭证</a>
+						{{# }else if(d.OrderStatus==1){  }}
+						{{# }else if(d.OrderStatus==2){  }}
+						{{# }else if(d.OrderStatus==3){  }}
+						{{# }else if(d.OrderStatus==4){  }}
+						{{# }else if(d.OrderStatus==5){  }}
+						{{# }else if(d.OrderStatus==6){  }}
+						{{# }else if(d.OrderStatus==7){  }} 
+						{{# }else if(d.OrderStatus==8){  }}
+						{{# }else if(d.OrderStatus==9){  }}
+						{{# } }}
+						<a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="see"><i class="layui-icon layui-icon-log"></i>查看客户信息</a>
+					</script>
+				</div>
+			</div>
+		</div>
+
+		<script src="../../../layuiadmin/layui/layui.js"></script>
+		<script>
+			layui.config({
+				base: '../../../layuiadmin/' //静态资源所在路径
+			}).extend({
+				index: 'lib/index', //主入口模块
+			}).use(['index','table', 'form', 'soulTable','pubilc','laydate'], function() {
+				
+				var $ = layui.$,
+					form = layui.form,
+					table = layui.table,
+					soulTable = layui.soulTable,
+					pubilc = layui.pubilc,
+					laydate = layui.laydate,
+					tool = pubilc.tool;
+				/****************************************初始化*******************************************/
+				//引入模板页
+				$("#component").load("../public/components.html");
+				
+				tool.init({
+					id:'LAY-user-manage',
+					fieldJson:{Deadline:''}
+				})
+				laydate.render({
+				    elem: '#LAY-component-form-group-date' //指定元素
+				    ,type: 'date'
+					,trigger: 'click'
+				});
+				var userId = tool.getMethod('userId');
+				/****************************************数据获取绑定*******************************************/
+				
+				// 后台分页
+				tool.tableAjax({
+					url:  'order/show?userId='+userId, //模拟接口
+					cols: [[
+						{type: 'checkbox',fixed: 'left'},
+						{field: 'Id',width: 60,title: 'ID',sort: true}, 
+						{field: 'OrderNo',width: 180,title: '订单编号'},
+						{field: 'OrderStatus', title:'订单状态', templet: '#OrderStatusTpl', width: 100, align: 'center'},
+						{field: 'Money',width: 100,title: '投保金额(香港币)'},
+//						{field: 'huilv',width: 100,title: '￥/HK$汇率'},
+						{ field: 'huilvs',width: 180, title: '￥/HK$汇率' , templet: function (d) {
+						        return d.huilv/100;
+						    }
+						},
+						{ field: 'Moneys',width: 180, title: '相当于人民币' , templet: function (d) {
+						        return d.Money * d.huilv/100;
+						    }
+						}, 
+						{field: 'PayType', title:'支付方式', templet: '#PayTypeTpl', width: 100, align: 'center'},
+						{field: 'PayImage', title:'支付凭证', templet: '#PayImageTpl', width: 100, align: 'center'},
+						{field: 'SingImage', title:'签名', templet: '#SingImageTpl', width: 100, align: 'center'},
+						{field: 'CreateTime',width: 200,title: '创建时间'},
+						{field: 'UpdateTime',width: 200,title: '更新时间'},
+						{title: '操作',width: 420,align: 'center',fixed:'right',toolbar: '#table-useradmin-webuser'}
+					]],
+					success:function(){
+						layer.photos({
+						  	photos: '.layui-table',
+						  	anim: 5 
+						}); 
+					}
+				})
+				//监听工具条
+				table.on('tool(LAY-user-manage)', function(obj) {
+					var data = obj.data;
+					var tr = $(obj.tr);
+					if(obj.event === 'del1') {//支付驳回
+						layer.open({
+							title:'审批驳回',btn: ['确定', '取消'],
+							type: 2,shade: false,area: ['750px', '500px'],maxmin: true,zIndex: 999,
+							content: "shenhe.html",
+							yes: function(index, layero){
+						        var upData = tool.getEdit(layero);
+					          	obj.update(upData);
+					          	upData.Id = data.Id;
+					          	upData.OrderStatus = 0;//上传凭证驳回
+					          	upData.user_id = data.user_id;
+					          	tool.ajax({
+					          		url:'order/ordersave',
+					          		data:upData,
+					          		success:function(res){
+					          			layer.close(index);
+					          		}
+					          	})
+					        },
+					        success: function(layero, index){
+					        	layer.setTop(layero);
+					        	tool.setEdit({layero:layero,data:data})
+					        }
+						});
+					}else if(obj.event === 'del2') {//签名驳回
+						layer.open({
+							title:'审批驳回',btn: ['确定', '取消'],
+							type: 2,shade: false,area: ['750px', '500px'],maxmin: true,zIndex: 999,
+							content: "shenhe.html",
+							yes: function(index, layero){
+						        var upData = tool.getEdit(layero);
+					          	upData.Id = data.Id;
+					          	upData.OrderStatus = 1;//签名驳回
+					          	upData.user_id = data.user_id;
+					          	tool.ajax({
+					          		url:'order/ordersave',
+					          		data:upData,
+					          		success:function(res){
+					          			layer.close(index);
+					          		}
+					          	})
+					        },
+					        success: function(layero, index){
+					        	layer.setTop(layero);
+					        	tool.setEdit({layero:layero,data:data})
+					        }
+						});
+					}else if(obj.event === 'edit1') {//上传凭证
+						layer.open({
+							title:'上传凭证',btn: ['确定', '取消'],
+							type: 2,shade: false,area: ['750px', '500px'],maxmin: true,zIndex: 999,
+							content: "uploadPZ.html",
+							yes: function(index, layero){
+						        var upData = tool.getEdit(layero);
+					          	upData.Id = data.Id;
+					          	upData.OrderStatus = 1;//签名驳回
+					          	tool.ajax({
+					          		url:'order/ordersave',
+					          		data:upData,
+					          		success:function(res){
+					          			table.reload('LAY-user-manage', {
+								      		page: {
+								            	curr: 1
+								       		}
+								      	});
+					          			layer.close(index);
+					          		}
+					          	})
+					        },
+					        success: function(layero, index){
+					        	layer.setTop(layero);
+					        	tool.setEdit({layero:layero,data:data})
+					        }
+						});
+					}else if(obj.event === 'edit') {//审核成功
+						tool.ajax({
+			          		url:'order/ordersave',
+			          		data:{Id:data.Id,OrderStatus:3,user_id:data.user_id},
+			          		success:function(res){
+			          			table.reload('LAY-user-manage', {
+							      		page: {
+							            	curr: 1
+							       		}
+							      	});
+			          		}
+			          	})
+					}else if(obj.event === 'see') {//审核成功
+//						sst.dalaokj.com//
+						window.location.href='see.html?id='+data.user_id
+//						tool.ajax({
+//			          		url:'order/merger',
+//			          		data:{ID:data.Id,OrderStatus:3,user_id:data.user_id},
+//			          		success:function(res){
+//			          			table.reload('LAY-user-manage', {
+//							      		page: {
+//							            	curr: 1
+//							       		}
+//							      	});
+//			          		}
+//			          	})
+					}
+				});
+			});
+		</script>
+	</body>
+
+</html>

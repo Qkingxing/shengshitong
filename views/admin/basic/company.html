@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title>新增</title>
+		<meta name="renderer" content="webkit">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
+		<link rel="stylesheet" href="../../../layuiadmin/layui/css/layui.css" media="all">
+		<style>
+			.displayF{
+				display:flex;
+				justify-content: center;
+				align-items: center;
+			}
+		</style>
+	</head>
+
+	<body>
+		<div class="layui-form" lay-filter="formArea" id="formArea" style="padding: 20px 30px 0 0;">
+			<form class="layui-form" action="" lay-filter="component-form-group">
+				<div class="layui-form-item">
+					<label class="layui-form-label">收款人</label>
+					<div class="layui-input-block">
+						<input type="text" name="Name" lay-verify="" autocomplete="off" placeholder="请输入·····" class="layui-input">
+					</div>
+				</div>
+				<div class="layui-form-item">
+					<label class="layui-form-label">银行卡账号</label>
+					<div class="layui-input-block">
+						<input type="number" name="Account" lay-verify="required" autocomplete="off" class="layui-input">
+					</div>
+				</div>
+				<div class="layui-form-item">
+					<label class="layui-form-label">所属银行</label>
+					<div class="layui-input-block">
+						<input type="text" name="Bank" lay-verify="required" autocomplete="off" class="layui-input">
+					</div>
+				</div>
+				<div class="layui-form-item layui-layout-admin">
+					<div class="layui-input-block">
+						<button type="" class="layui-btn" lay-submit="" lay-filter="demo1">立即修改</button>
+					</div>
+				</div>
+			</form>
+		</div>
+
+		<script src="../../../layuiadmin/layui/layui.js"></script>
+		<script>
+			var layeditss,indexss;
+			function getlayedit(){
+				var con = layeditss.getContent(indexss);
+  				return con;
+			}
+			layui.config({
+				base: '../../../layuiadmin/' //静态资源所在路径
+			}).extend({
+				index: 'lib/index' //主入口模块
+			}).use(['index', 'form', 'layer','laydate', 'upload', 'pubilc', 'treeSelect','layedit'], function() {
+				var $ = layui.$,
+					form = layui.form,
+					pubilc = layui.pubilc,
+					laydate = layui.laydate,
+					upload = layui.upload,
+					layer = layui.layer,
+					treeSelect = layui.treeSelect,
+					layedit = layui.layedit,
+					//					layarea = layui.layarea,
+					tool = pubilc.tool;
+
+				/****************************************初始化*******************************************/
+				//获取页面参数
+				var type = tool.getMethod('type');
+				tool.init({
+					isSreach: false
+				})
+				tool.ajax({
+					url:'product/transfershow',
+					success:function(res){
+						$('input[name="Name"]').val(res.Name);
+						$('input[name="Account"]').val(res.Account);
+						$('input[name="Bank"]').val(res.Bank);
+					}
+				})
+				$('.layui-btn').on('click',function(){
+					
+					var data = {Id:1};
+					data.Name = $('input[name="Name"]').val();
+					data.Account = $('input[name="Account"]').val();
+					data.Bank = $('input[name="Bank"]').val();
+					tool.ajax({
+						url:'product/transfer',
+						data:data,
+						success:function(res){
+							layer.msg('修改成功')
+						}
+					})
+				})
+				laydate.render({
+				    elem: '#LAY-component-form-group-date' //指定元素
+				    ,type: 'date'
+					,trigger: 'click'
+				});
+			})
+		</script>
+	</body>
+
+</html>

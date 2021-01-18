@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title>新增</title>
+		<meta name="renderer" content="webkit">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
+		<link rel="stylesheet" href="../../../layuiadmin/layui/css/layui.css" media="all">
+	</head>
+
+	<body>
+		<div class="layui-form" lay-filter="formArea" id="formArea" style="padding: 20px 30px 0 0;">
+			<form class="layui-form" action="" lay-filter="component-form-group">
+				<div class="layui-form-item">
+					<label class="layui-form-label">姓名</label>
+					<div class="layui-input-inline">
+						<input type="text" name="store_name" lay-verify="" autocomplete="off" placeholder="请输入店铺名称" class="layui-input">
+					</div>
+				</div>
+
+				<div class="layui-form-item">
+					<label class="layui-form-label">审核状态</label>
+					<div class="layui-input-inline">
+						<input type="radio" name="status" value="0" title="成功" checked="">
+						<input type="radio" name="status" value="1" title="关闭">
+						<input type="radio" name="status" value="2" title="审核中">
+					</div>
+				</div>
+				<div class="layui-form-item">
+					<label class="layui-form-label">上传头像</label>
+					<div class="layui-input-inline">
+						<div class="layui-upload">
+							<button type="button" class="layui-btn" id="test1">上传图片</button>
+							<div class="layui-upload-list">
+								<img class="layui-upload-img" name='company_bus' id="demo1">
+								<p id="demoText"></p>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="layui-form-item">
+					<label class="layui-form-label">负责人姓名</label>
+					<div class="layui-input-inline">
+						<input type="text" name="company_name" lay-verify="required" autocomplete="off" class="layui-input">
+					</div>
+				</div>
+				<div class="layui-form-item">
+					<label class="layui-form-label">负责人电话</label>
+					<div class="layui-input-inline">
+						<input type="tel" name="company_phone" lay-verify="required|phone" autocomplete="off" class="layui-input">
+					</div>
+				</div>
+				<div class="layui-form-item">
+					<label class="layui-form-label">负责人邮箱</label>
+					<div class="layui-input-inline">
+						<input type="text" name="company_email" lay-verify="required" autocomplete="off" class="layui-input">
+					</div>
+				</div>
+				<div class="layui-form-item">
+		            <label class="layui-form-label">选择省</label>
+		            <div class="layui-input-inline">
+		              	<select name="province" class="province-selector area"  lay-filter="province">
+		              	</select>
+		            </div>
+	         	</div>
+	         	<div class="layui-form-item">
+		            <label class="layui-form-label">选择市</label>
+		            <div class="layui-input-inline">
+		              	<select name="city" class="city-selector area" lay-filter="city">
+		              	</select>
+		            </div>
+	         	</div>
+	         	<div class="layui-form-item">
+		            <label class="layui-form-label">选择县</label>
+		            <div class="layui-input-inline">
+		              	<select name="county" class="county-selector area"  lay-filter="county">
+		              	</select>
+		            </div>
+	         	</div>
+	         	<div class="layui-form-item">
+		            <label class="layui-form-label">详细地址</label>
+	          		<div class="layui-input-inline">
+	            		<input type="tel" name="address" lay-verify="required" autocomplete="off" class="layui-input">
+	          		</div>
+		        </div>
+				<div class="layui-form-item layui-form-text">
+					<label class="layui-form-label">店铺说明</label>
+					<div class="layui-input-block">
+						<textarea name="store_brief" placeholder="请输入内容" class="layui-textarea"></textarea>
+					</div>
+				</div>
+				<div class="layui-form-item layui-form-text">
+		            <label class="layui-form-label">简介</label>
+		            <div class="layui-input-block">
+		              	<textarea id="demo" class="layedit" name='store_brief' style="display: none;"></textarea>
+		            </div>
+		        </div>
+				<div class="layui-form-item layui-layout-admin">
+					<div class="layui-input-block">
+						<button type="reset" class="layui-btn layui-btn-primary">重置</button>
+					</div>
+				</div>
+			</form>
+		</div>
+
+		<script src="../../../layuiadmin/layui/layui.js"></script>
+		<script>
+			var layeditss,indexss;
+			function getlayedit(){
+				var con = layeditss.getContent(indexss);
+  				return con;
+			}
+			layui.config({
+				base: '../../../layuiadmin/' //静态资源所在路径
+			}).extend({
+				index: 'lib/index' //主入口模块
+			}).use(['index', 'form', 'laydate', 'upload', 'pubilc', 'treeSelect','layedit'], function() {
+				var $ = layui.$,
+					form = layui.form,
+					pubilc = layui.pubilc,
+					laydate = layui.laydate,
+					upload = layui.upload,
+					treeSelect = layui.treeSelect,
+					layedit = layui.layedit,
+					//					layarea = layui.layarea,
+					tool = pubilc.tool;
+
+				/****************************************初始化*******************************************/
+				//获取页面参数
+				var type = tool.getMethod('type');
+				tool.init({
+					isSreach: false
+				})
+				tool.createArea.getProvince();
+				
+				layedit.set({
+				  	uploadImage: {
+					    imgUrl: {
+					    	url: 'http://lx.1024xxkj.com/',
+					    	type:'post',
+					    	token:tool.options.token
+					    },
+				  	}
+				});
+      			indexss = layedit.build('demo'); //建立编辑器
+      			layeditss = layedit;
+      			function getlayedit(){
+      				var con = layedit.getContent(index);
+      				return con;
+      			}
+				
+				//判断编辑新增
+//				if(tool.getMethod('type') == 'add') {
+//					$('.hiddens').attr('hidden', 'hidden')
+//				} else {
+//					$('.hidden2').attr('hidden', 'hidden')
+//				}
+//				
+//				laydate.render({
+//					elem: '#LAY-component-form-group-date' //指定元素
+//						,
+//					type: 'date',
+//					trigger: 'click'
+//				});
+//				var uploadInst = tool.imgAjax({
+//					id: '#test1',
+//					imgId: '#demo1'
+//				});
+//				tool.ajax({
+//					url: 'shop/list',
+//					data: {},
+//					success: function(res) {
+//						//---------------------------------------------------------
+//						var arr = [],
+//							items = res.list;
+//						treeSelect.render({
+//							elem: '#tree',
+//							data: items,
+//							placeholder: '选择店铺',
+//							search: true,
+//							style: {
+//								folder: {
+//									enable: true
+//								},
+//								line: {
+//									enable: true
+//								}
+//							},
+//							setting: {
+//								data: {
+//									key: {
+//										id: 'id',
+//										name: 'shopName'
+//									}
+//								}
+//							},
+//							click: function(d) {
+//								$("#tree").attr('vals', d.current.id)
+//							},
+//							// 加载完成后的回调函数
+//							success: function(d) {
+//								var a = $('#tree').attr('vals')
+//								treeSelect.checkNode('tree', a);
+//								//console.log($('#tree').val());
+//								//获取zTree对象，可以调用zTree方法
+//								//var treeObj = treeSelect.zTree('tree');
+//								//console.log(treeObj);/
+//								//刷新树结构
+//								//treeSelect.refresh('tree');
+//							}
+//						});
+//					}
+//				})
+			})
+		</script>
+	</body>
+
+</html>

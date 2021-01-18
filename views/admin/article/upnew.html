@@ -1,0 +1,241 @@
+
+
+<!DOCTYPE html>
+
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title>商品管理-商品列表</title>
+		<meta name="renderer" content="webkit">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
+		<link rel="stylesheet" href="../../../layuiadmin/layui/css/layui.css" media="all">
+		<link rel="stylesheet" href="../../../layuiadmin/style/admin.css" media="all">
+		<link rel="stylesheet" href="../../../layuiadmin/lib/extend/soulTable/soulTable.css" media="all" />
+	</head>
+
+	<body>
+
+		<div class="layui-fluid">
+			<div class="layui-card">
+				<div class="layui-form layui-card-header layuiadmin-card-header-auto">
+					<div class="layui-form-item">
+						<div class="layui-inline">
+							<label class="layui-form-label">文章类型：</label>
+							<div class="layui-input-block">
+								<select name="title" lay-filter="" required>
+									<option value="财经">财经</option>
+									<option value="房产">房产</option>
+									<option value="理财">理财</option>
+									<option value="科技">科技</option>
+									<option value="教育">教育</option>
+									<option value="国际">国际</option>
+									<option value="港澳">港澳</option>
+	              				</select>
+							</div>
+						</div>
+						<div class="layui-inline">
+							<button class="layui-btn" lay-submit lay-filter="selfSearchFilter">
+              					<i class="layui-icon layui-icon-search layuiadmin-button-btn"></i>
+            				</button>
+						</div>
+					</div>
+				</div>
+
+				<div class="layui-card-body">
+					<!--<div style="padding-bottom: 10px;">
+						<button class="layui-btn layuiadmin-btn-useradmin" data-type="batchdel">删除</button>
+						<button class="layui-btn layuiadmin-btn-useradmin" data-type="add">收藏</button>
+					</div>-->
+					<div id='component'></div>
+					<table id="LAY-user-manage" lay-filter="LAY-user-manage"></table>
+					<script type="text/html" id="imgTpl">
+						<img  style="display: inline-block; width: 50%; height: auto;" name="imgZmList"  layer-pid="" layer-src="{{d.avatar}}" src="{{d.avatar}}" alt="{{d.name}}的营业执照">
+					</script>
+					<script type="text/html" id="table-useradmin-webuser">
+						<a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="edit"><i class="layui-icon layui-icon-edit"></i>收藏</a>
+					</script>
+				</div>
+			</div>
+		</div>
+
+		<script src="../../../layuiadmin/layui/layui.js"></script>
+		<script>
+			layui.config({
+				base: '../../../layuiadmin/' //静态资源所在路径
+			}).extend({
+				index: 'lib/index', //主入口模块
+			}).use(['index','table', 'form', 'soulTable','pubilc'], function() {
+				
+				var $ = layui.$,
+					form = layui.form,
+					table = layui.table,
+					soulTable = layui.soulTable,
+					pubilc = layui.pubilc,
+					tool = pubilc.tool;
+				/****************************************初始化*******************************************/
+				tool.init({
+					id:'LAY-user-manage',
+					fieldJson:{categoryName:'财经'}
+				})
+				/****************************************数据获取绑定*******************************************/
+				//引入模板页
+				$("#component").load("../public/components.html");
+				form.on('submit(selfSearchFilter)', function(data){
+			      	field = data.field;
+			      	var urls = 'https://route.showapi.com/109-35?maxResult=20&needAllList=0&needContent=0&needHtml=0&showapi_timestamp=20201126162314&showapi_appid=379168&showapi_sign=9b86668053ee4647a5ac9a300bcefa99'
+			      	urls += '&title='+field.title
+			      	inits(urls);
+			    });			
+				// 后台分页
+				inits('https://route.showapi.com/109-35?maxResult=20&needAllList=0&needContent=0&needHtml=0&showapi_timestamp=20201126162314&showapi_appid=379168&showapi_sign=9b86668053ee4647a5ac9a300bcefa99')
+				//结算方式为统计结算/单品结算
+				function inits(url){
+					tool.tableAjaxS({
+						url: url, //模拟接口
+						data:{},
+						cols: [[
+	//						{type: 'checkbox',fixed: 'left'},
+							{field: 'id',width: 60,title: 'ID',sort: true,hide:true}, 
+							{field: 'channelId',width: 60,title: 'ID',sort: true,hide:true}, 
+							{field: 'title',width: 140,title: '文章标题'},
+							{field: 'source',width: 140,title: '文章来源'},
+							{field: 'img', title:'缩略图', templet: '#imgTpl', width: 100, align: 'center'},
+							{field: 'channelName',width: 140,title: '来源板块'},
+							{field: 'link',width: 140,title: '外部链接'},
+							{field: 'desc',width: 140,title: '简介'},
+							{field: 'pubDate',width: 140,title: '时间'},
+							{title: '操作',width: 100,align: 'center',fixed:'right',toolbar: '#table-useradmin-webuser'}
+						]],
+						handleData: function(res){
+							var t = {};
+							try{
+								var data = res.showapi_res_body.pagebean.contentlist;
+								for(var i = 0;i< data.length;i++){
+									if(data[i].img){
+										data[i].img = data[i].img
+									}else{
+										if(data[i].imageurls.length>0){
+											data[i].img = data[i].imageurls[0].url || ''
+										}else{
+											data[i].img = ''
+										}
+									}
+									data[i].imageurls = '';
+									data[i].desc = data[i].desc || '';
+//									data[i].img = data[i].img || data[i].imageurls[0].url || '';
+								}
+								t.code='200';t.msg = '';t.count = res.showapi_res_body.pagebean.allNum;t.data = data;
+								
+							}catch{
+								t.code=-1;
+							}
+							return t;
+							/*************************************/
+			    		},
+			    		limit:20,
+						success:function(){
+							layer.photos({
+							  	photos: '.layui-table',
+							  	anim: 5 
+							}); 
+						}
+					})
+				}
+					
+				/****************************************监听工具条*******************************************/
+				
+				//监听工具条
+				table.on('tool(LAY-user-manage)', function(obj) {
+					var data = obj.data;
+					data.categoryName = $('select[name="title"]').val();
+					delete data.imageurls;
+					if(obj.event === 'edit') {
+						var upData = {};
+			          	tool.ajax({
+			          		url:'news/create',
+			          		data:data,
+			          		success:function(res){
+			          			table.reload('LAY-user-manage', {
+						      		page: {
+						            	curr: 1
+						       		}
+						      	});
+			          		}
+			          	})
+					}
+				});
+					/****************************************页面事件*******************************************/
+
+				$('.layui-btn.layuiadmin-btn-useradmin').on('click', function() {
+					var type = $(this).data('type');
+					type=='add' ? tool.active.add({
+						title:'新增',
+						url: "addEdit.html?type=add",
+						area:['100%','100%'],
+						success:function(layero,othis){
+							var iframeWin = window[layero.find('iframe')[0]['name']];
+							var upData = tool.getEdit(layero);
+				          	upData.e = iframeWin.getlayedit();
+				          	tool.ajax({
+				          		url:'article/articlemerger',
+				          		data:upData,
+				          		success:function(res){
+				          			table.reload('LAY-user-manage', {
+							      		page: {
+							            	curr: 1
+							       		}
+							      	});
+				          		}
+				          	})
+						}
+					}) : ''
+				});
+				/***************************************查询条件事件******************************************/
+				//单位下拉
+				tool.createSelect({
+					ele: 'select[name=type]',
+					url: 'article/show',
+					success:function(data){
+						data =  data.data;
+						var htm = '';
+						var ss ;
+						if(tool.getMethod('type')=='edit'){
+							ss= $('select[name=type]').attr('vals');
+							if(ss==0){
+								htm = '<option selected value="">全部</option>'
+								htm += '<option selected value="0">系统</option>'
+							}else{
+								htm = '<option value="">全部</option>';
+								htm += '<option value="0">系统</option>';
+								(data).forEach(function(item ,index){
+									if(ss==item.category_id){
+										htm += '<option selected value="'+ item.id +'">'+ item.name +'</option>'
+									}else{
+										htm += '<option value="'+ item.id +'">'+ item.name +'</option>'
+									}
+								})
+							}
+							$('select[name=pityped]').html(htm);
+							form.render("select");
+						}else{
+							htm = '<option selected value="">全部</option>';
+							htm += '<option value="0">系统</option>';
+							if(data.length>0){
+								(data).forEach(function(item ,index){
+									htm += '<option value="'+ item.id +'">'+ item.name +'</option>'
+								})
+							}
+								
+							$('select[name=type]').html(htm);
+							form.render("select");
+						}
+					}
+					
+				})
+			});
+		</script>
+	</body>
+
+</html>

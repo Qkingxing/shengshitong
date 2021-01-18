@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title>产品管理-已递表新股</title>
+		<meta name="renderer" content="webkit">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
+		<link rel="stylesheet" href="../../../layuiadmin/layui/css/layui.css" media="all">
+		<link rel="stylesheet" href="../../../layuiadmin/style/admin.css" media="all">
+		<link rel="stylesheet" href="../../../layuiadmin/lib/extend/soulTable/soulTable.css" media="all" />
+	</head>
+
+	<body>
+
+		<div class="layui-fluid">
+			<div class="layui-card">
+				<!--<div class="layui-form layui-card-header layuiadmin-card-header-auto">
+					<div class="layui-form-item">
+						<div class="layui-inline">
+							<label class="layui-form-label">姓名：</label>
+							<div class="layui-input-block">
+								<input type="text" name="name" placeholder="请输入" autocomplete="off" class="layui-input searchClear">
+							</div>
+						</div>
+						<div class="layui-inline">
+							<label class="layui-form-label">手机号：</label>
+							<div class="layui-input-block">
+								<input type="text" name="phoneNum" placeholder="请输入" autocomplete="off" class="layui-input searchClear">
+							</div>
+						</div>
+						<div class="layui-inline">
+							<button class="layui-btn" lay-submit lay-filter="searchFilter">
+              					<i class="layui-icon layui-icon-search layuiadmin-button-btn"></i>
+            				</button>
+            				<button class="layui-btn" lay-submit lay-filter="clearFilter">
+								清空
+							</button>
+						</div>
+					</div>
+				</div>-->
+
+				<div class="layui-card-body">
+					<div style="padding-bottom: 10px;">
+						<button class="layui-btn layuiadmin-btn-useradmin" data-type="batchdel">删除</button>
+						<button class="layui-btn layuiadmin-btn-useradmin" data-type="add">添加</button>
+					</div>
+					
+					<!--<script type="text/html" id="toolbar">
+						<div style="padding-bottom: 10px;">
+							<button class="layui-btn layuiadmin-btn-useradmin" data-type="batchdel">删除</button>
+							<button class="layui-btn layuiadmin-btn-useradmin" data-type="add">添加</button>
+						</div>
+					</script>-->
+					
+					<table id="LAY-user-manage" lay-filter="LAY-user-manage"></table>
+					<div id='component'></div>
+					<script type="text/html" id="table-useradmin-webuser">
+						<!--<a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="edit"><i class="layui-icon layui-icon-edit"></i>其他内容</a>-->
+						<a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del"><i class="layui-icon layui-icon-delete"></i>pdf上传</a>
+					</script>
+				</div>
+			</div>
+		</div>
+
+		<script src="../../../layuiadmin/layui/layui.js"></script>
+		<script>
+			layui.config({
+				base: '../../../layuiadmin/' //静态资源所在路径
+			}).extend({
+				index: 'lib/index', //主入口模块
+			}).use(['index','table', 'form', 'soulTable','pubilc'], function() {
+				
+				var $ = layui.$,
+					form = layui.form,
+					table = layui.table,
+					soulTable = layui.soulTable,
+					pubilc = layui.pubilc,
+					tool = pubilc.tool;
+				/****************************************初始化*******************************************/
+				//引入模板页
+				$("#component").load("../public/components.html");
+				
+				tool.init({
+					id:'LAY-user-manage',
+					fieldJson:{name:'',phoneNum:'',wxNum:''}
+				})
+				/****************************************数据获取绑定*******************************************/
+				
+				// 后台分页
+				tool.tableAjax1({
+					url:  'api/user/register_readDatakrg', //模拟接口
+					cols: [[
+						{type: 'checkbox',fixed: 'left'},
+						{field: 'f1',width: 120,title: '代码编号',sort: true}, 
+						{field: 'f2',width: 220,title: '公司名称'},
+						{field: 'f3',width: 120,title: '发行价'},
+						{field: 'f4',width: 120,title: '总市值'},
+						{field: 'f5',width: 120,title: '现价'},
+						{field: 'f7',width: 120,title: '截止认购日'},
+						{title: '操作',width: 260,align: 'center',fixed:'right',toolbar: '#table-useradmin-webuser'}
+					]],
+					handleData: function(res){
+						var t = {};
+						try{
+							t.code=200;t.msg = '';t.count = res.length;t.data = res;
+//								t.data = opt.handleRes(t.data)
+						}catch{
+							t.code=-1;
+						}
+						return t;
+						/*************************************/
+		    		},
+					success:function(){
+//						layer.photos({
+//						  	photos: '.layui-table',
+//						  	anim: 5 
+//						}); 
+					}
+				})
+				//监听工具条
+				table.on('tool(LAY-user-manage)', function(obj) {
+					var data = obj.data;
+					if(obj.event === 'edit') {
+						var tr = $(obj.tr);
+						layer.open({
+							title:'编辑',btn: ['确定', '取消'],
+							type: 2,shade: false,area: ['750px', '500px'],maxmin: true,zIndex: 999,
+							content: "krgAddcon.html?type=edit",
+							yes: function(index, layero){
+						        var upData = tool.getEdit(layero);
+					          	obj.update(upData);
+					          	upData.stockId = data.f1;
+					          	tool.ajax({
+					          		url:'subscription/subscriptionsave',
+					          		data:upData,
+					          		success:function(res){
+					          			layer.close(index);
+					          			layer.msg('上传成功');
+					          		}
+					          	})
+					        },
+					        success: function(layero, index){
+					        	layer.setTop(layero);
+					        	tool.setEdit({layero:layero,data:data})
+					        }
+						});
+					}else if(obj.event === 'del') {
+						var tr = $(obj.tr);
+						layer.open({
+							title:'编辑',btn: ['确定', '取消'],
+							type: 2,shade: false,area: ['500px', '500px'],maxmin: true,
+							content: "krgFrom.html",
+							yes: function(index, layero){
+						        var upData = tool.getEdit(layero);
+						        upData.stockId = upData.f1;
+					          	tool.ajax({
+					          		url:'subscription/add',
+					          		data:upData,
+					          		success:function(res){
+					          			table.reload('LAY-user-manage', {
+								      		page: {
+								            	curr: 1
+								       		}
+								      	});
+					          			layer.close(index);
+					          			layer.msg('上传成功');
+					          		}
+					          	})
+					        },
+					        success: function(layero, index){
+					        	layer.setTop(layero);
+					        	tool.setEdit({layero:layero,data:data})
+					        }
+						});
+					}
+				});
+
+				/****************************************页面事件*******************************************/
+
+				$('.layui-btn.layuiadmin-btn-useradmin').on('click', function() {
+					var type = $(this).data('type');
+					type=='batchdel' ? tool.active.batchdel({
+						url:  '',
+						data:  {},
+					}) : ''
+					type=='add' ? tool.active.add({
+						title:'新增',
+//						area:['100%','100%'],
+						url: "listAdd.html?type=add",
+						success:function(layero,othis){
+							var upData = tool.getEdit(layero);
+				          	upData.RateOfReturn = upData.RateOfReturn1+'-'+upData.RateOfReturn2;
+				          	tool.ajax({
+				          		url:'product/merger',
+				          		data:upData,
+				          		success:function(res){
+				          			table.reload('LAY-user-manage', {
+							      		page: {
+							            	curr: 1
+							       		}
+							      	});
+				          		}
+				          	})
+						}
+					}) : ''
+				});
+			});
+		</script>
+	</body>
+
+</html>

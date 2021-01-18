@@ -1,0 +1,77 @@
+{
+  "code": 0
+  ,"msg": ""
+  ,"count": "100"
+  ,"data": [{
+    "id": "1"
+    ,"name": "#####"
+    ,"creatTine": "2020-10-10"
+    ,"remarks": "备注备注"
+    ,"check": true
+    ,"avatar": "/layuiAdmin.std-v1.4.0/src/layuiadmin/img/csimg/1.jpg"
+  },{
+    "id": "2"
+    ,"name": "#####"
+    ,"creatTine": "2020-10-10"
+    ,"remarks": "备注备注"
+    ,"check": false
+    ,"avatar": "/layuiAdmin.std-v1.4.0/src/layuiadmin/img/csimg/1.jpg"
+  },{
+    "id": "3"
+    ,"name": "#####"
+    ,"creatTine": "2020-10-10"
+    ,"remarks": "备注备注"
+    ,"check": false
+    ,"avatar": "/layuiAdmin.std-v1.4.0/src/layuiadmin/img/csimg/1.jpg"
+  },{
+    "id": "4"
+    ,"name": "#####"
+    ,"creatTine": "2020-10-10"
+    ,"remarks": "备注备注"
+    ,"check": false
+    ,"avatar": "/layuiAdmin.std-v1.4.0/src/layuiadmin/img/csimg/1.jpg"
+  },{
+    "id": "5"
+    ,"name": "#####"
+    ,"creatTine": "2020-10-10"
+    ,"remarks": "备注备注"
+    ,"check": false
+    ,"avatar": "/layuiAdmin.std-v1.4.0/src/layuiadmin/img/csimg/1.jpg"
+  },{
+    "id": "2"
+    ,"name": "#####"
+    ,"creatTine": "2020-10-10"
+    ,"remarks": "备注备注"
+    ,"check": false
+    ,"avatar": "/layuiAdmin.std-v1.4.0/src/layuiadmin/img/csimg/1.jpg"
+  },{
+    "id": "3"
+    ,"name": "#####"
+    ,"creatTine": "2020-10-10"
+    ,"remarks": "备注备注"
+    ,"check": false
+    ,"avatar": "/layuiAdmin.std-v1.4.0/src/layuiadmin/img/csimg/1.jpg"
+  },{
+    "id": "4"
+    ,"name": "#####"
+    ,"creatTine": "2020-10-10"
+    ,"remarks": "备注备注"
+    ,"check": false
+    ,"avatar": "/layuiAdmin.std-v1.4.0/src/layuiadmin/img/csimg/1.jpg"
+  },{
+    "id": "5"
+    ,"name": "#####"
+    ,"creatTine": "2020-10-10"
+    ,"remarks": "备注备注"
+    ,"check": false
+    ,"avatar": "/layuiAdmin.std-v1.4.0/src/layuiadmin/img/csimg/1.jpg"
+  },{
+    "id": "2"
+    ,"name": "#####"
+    ,"creatTine": "2020-10-10"
+    ,"remarks": "备注备注"
+    ,"check": false
+    ,"avatar": "/layuiAdmin.std-v1.4.0/src/layuiadmin/img/csimg/1.jpg"
+  }
+  ]
+}

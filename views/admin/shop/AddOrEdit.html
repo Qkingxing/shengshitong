@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title>新增</title>
+		<meta name="renderer" content="webkit">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
+		<link rel="stylesheet" href="../../../layuiadmin/layui/css/layui.css" media="all">
+		<!--下拉树-->
+		<link rel="stylesheet" href="../../../layuiadmin/layui/css/modules/eleTree/eleTree.css" media="all">
+		
+		<style>
+			.transform-r90:after {
+			    transform: rotate(90deg);
+			}
+		</style>
+	</head>
+
+	<body>
+		<div class="layui-form" lay-filter="formArea" id="formArea" style="padding: 20px 30px 0 0;">
+			<form class="layui-form" action="" lay-filter="component-form-group">
+				<div class="layui-form-item">
+					<label class="layui-form-label">商品名称</label>
+					<div class="layui-input-inline">
+						<input type="text" name="name" lay-verify="required" autocomplete="off" placeholder="请输入" class="layui-input">
+					</div>
+				</div>
+				<div class="layui-form-item">
+					<label class="layui-form-label">oe码</label>
+					<div class="layui-input-inline">
+						<input type="text" name="oeCode" lay-verify="required" autocomplete="off" placeholder="请输入" class="layui-input">
+					</div>
+				</div>
+				<div class="layui-form-item">
+					<label class="layui-form-label">上传头像</label>
+					<div class="layui-input-inline imgupload" name="goods_imgs">
+						<div class="layui-upload">
+							<!--<div class="layui-upload-list">
+								<img class="layui-upload-img" name='icon' id="demo1">
+								<p id="demoText"></p>
+								<i class="layui-icon layui-icon-close"></i>
+							</div>
+							<div class="layui-upload-list">
+								<img class="layui-upload-img" name='icon' id="demo1">
+								<p id="demoText"></p>
+								<i class="layui-icon layui-icon-close"></i>
+							</div>
+							<div class="layui-upload-list">
+								<img class="layui-upload-img" name='icon' id="demo1">
+								<p id="demoText"></p>
+								<i class="layui-icon layui-icon-close"></i>
+							</div>-->
+							<button type="button" class="layui-btn" id="test1">
+								<i class="layui-icon layui-icon-picture"></i>
+							</button>
+						</div>
+					</div>
+				</div>
+				<div class="layui-form-item">
+			        <label class="layui-form-label">分类</label>
+			        <div class="layui-input-inline">
+			            <input type="text" id="tree" name='pid' class="treeInput" lay-filter="tree" class="layui-input">
+			        </div>
+			    </div>
+			    <!--<div class="layui-form-item">
+		            <label class="layui-form-label">项目</label>
+		            <div class="layui-input-inline">
+		              	<select name="projectId" lay-filter="" required>
+		              	</select>
+		            </div>
+	         	</div>-->
+			    <div class="layui-form-item">
+		            <label class="layui-form-label">单位</label>
+		            <div class="layui-input-inline">
+		              	<select name="unitId" lay-filter="" required>
+		              	</select>
+		            </div>
+	         	</div>
+				<div class="layui-form-item">
+					<label class="layui-form-label">规格型号</label>
+					<div class="layui-input-inline">
+						<input type="text" name="model" lay-verify="required" required autocomplete="off" placeholder="请输入" class="layui-input">
+					</div>
+				</div>
+				<div class="layui-form-item">
+		            <label class="layui-form-label">品牌</label>
+		            <div class="layui-input-inline">
+		              	<select name="brand" lay-filter="" required>
+		              	</select>
+		            </div>
+	         	</div>
+				<!--<div class="layui-form-item">
+					<label class="layui-form-label">品牌</label>
+					<div class="layui-input-inline">
+						<input type="text" name="brandName" lay-verify="required" required autocomplete="off" placeholder="请输入" class="layui-input">
+					</div>
+				</div>-->
+				<div class="layui-form-item">
+					<label class="layui-form-label">价格/元</label>
+					<div class="layui-input-inline">
+						<input type="number" name="price" lay-verify="required" required autocomplete="off" placeholder="请输入" class="layui-input">
+					</div>
+				</div>
+				<div class="layui-form-item">
+					<label class="layui-form-label">库存预警</label>
+					<div class="layui-input-inline">
+						<input type="number" name="warning" lay-verify="required" required autocomplete="off" placeholder="请输入" class="layui-input">
+					</div>
+				</div>
+				
+				<div class="layui-form-item">
+					<label class="layui-form-label">配件条码</label>
+					<div class="layui-input-inline">
+						<input type="text" name="barCode" lay-verify="required" required autocomplete="off" placeholder="请输入" class="layui-input">
+					</div>
+				</div>
+				<div class="layui-form-item">
+					<label class="layui-form-label">数量</label>
+					<div class="layui-input-inline">
+						<input type="number" name="number" lay-verify="required" required autocomplete="off" placeholder="请输入" class="layui-input">
+					</div>
+				</div>
+				<div class="layui-form-item layui-form-text">
+		            <label class="layui-form-label">备注</label>
+		            <div class="layui-input-block">
+		              	<textarea name="remark" placeholder="请输入内容" class="layui-textarea"></textarea>
+		            </div>
+		        </div>   
+				<div class="layui-form-item layui-layout-admin">
+					<div class="layui-input-block">
+						<button type="reset" class="layui-btn layui-btn-primary">重置</button>
+					</div>
+				</div>
+			</form>
+		</div>
+
+		<script src="../../../layuiadmin/layui/layui.js"></script>
+		<script>
+			layui.config({
+				base: '../../../layuiadmin/' //静态资源所在路径
+			}).extend({
+				index: 'lib/index' //主入口模块
+			}).use(['index', 'form', 'layarea','eleTree','selectN','treeSelect', 'pubilc'], function() {
+				var $ = layui.$,
+					form = layui.form,
+					pubilc = layui.pubilc,
+					layarea = layui.layarea,
+					selectN = layui.selectN,
+					tool = pubilc.tool,
+					treeSelect = layui.treeSelect,
+					eleTree= layui.eleTree;
+
+				/****************************************初始化*******************************************/
+				//获取页面参数
+				tool.init({
+					isSreach: false
+				})
+				//品牌下拉
+//				tool.createSelect({
+//					ele: 'select[name=brand]',
+//					url: 'source/list?userId='+tool.options.userId,
+//				})
+				var uploadInst = tool.imgAjax({
+					id : '#test1',
+    				imgId :'#demo1'
+				});
+				$('.imgupload').on('click','.layui-icon-close',function(e){
+					$(this).parent().remove();
+				})
+				//项目下拉
+//				tool.createSelect({
+//					ele: 'select[name=projectId]',
+//					url: 'project/list',
+//				})
+				//单位下拉
+//				tool.createSelect({
+//					ele: 'select[name=unitId]',
+//					url: 'unit/list',
+//				})
+				tool.ajax({
+	          		url:'category/CategoryShow',
+	          		data:{},
+	          		success:function(res){
+	          			//---------------------------------------------------------
+	          			var arr = [],items = res;
+	          			treeSelect.render({
+					        elem: '#tree',
+					        data:items,
+					        placeholder: '选择分类',
+					        search: true,
+					        style: {
+					            folder: { enable: true},
+					            line: {enable: true }
+					        },
+					        click: function(d){
+					            $("#tree").attr('vals',d.current.id)
+					        },
+					        // 加载完成后的回调函数
+					        success: function (d) {
+								var a = $('#tree').attr('vals')
+					            treeSelect.checkNode('tree', a);
+					            //console.log($('#tree').val());
+				                //获取zTree对象，可以调用zTree方法
+					           	//var treeObj = treeSelect.zTree('tree');
+					          	//console.log(treeObj);/
+				                //刷新树结构
+					           //treeSelect.refresh('tree');
+					        }
+					    });
+	          		}
+	          	})
+				
+			})
+		</script>
+	</body>
+
+</html>

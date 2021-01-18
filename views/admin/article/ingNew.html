@@ -1,0 +1,147 @@
+
+
+<!DOCTYPE html>
+
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title>商品管理-商品列表</title>
+		<meta name="renderer" content="webkit">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
+		<link rel="stylesheet" href="../../../layuiadmin/layui/css/layui.css" media="all">
+		<link rel="stylesheet" href="../../../layuiadmin/style/admin.css" media="all">
+		<link rel="stylesheet" href="../../../layuiadmin/lib/extend/soulTable/soulTable.css" media="all" />
+	</head>
+
+	<body>
+
+		<div class="layui-fluid">
+			<div class="layui-card">
+				<div class="layui-form layui-card-header layuiadmin-card-header-auto">
+					<div class="layui-form-item">
+						<div class="layui-inline">
+							<label class="layui-form-label">文章类型：</label>
+							<div class="layui-input-block">
+								<select name="categoryName" lay-filter="" required>
+									<option value="">全部</option>
+									<option value="财经">财经</option>
+									<option value="房产">房产</option>
+									<option value="理财">理财</option>
+									<option value="科技">科技</option>
+									<option value="教育">教育</option>
+									<option value="国际">国际</option>
+									<option value="港澳">港澳</option>
+	              				</select>
+							</div>
+						</div>
+						<div class="layui-inline">
+							<button class="layui-btn" lay-submit lay-filter="searchFilter">
+              					<i class="layui-icon layui-icon-search layuiadmin-button-btn"></i>
+            				</button>
+						</div>
+					</div>
+				</div>
+
+				<div class="layui-card-body">
+					<div id='component'></div>
+					<table id="LAY-user-manage" lay-filter="LAY-user-manage"></table>
+					<script type="text/html" id="imgTpl">
+						<img  style="display: inline-block; width: 50%; height: auto;" name="imgZmList"  layer-pid="" layer-src="{{d.avatar}}" src="{{d.avatar}}" alt="{{d.name}}的营业执照">
+					</script>
+					<script type="text/html" id="table-useradmin-webuser">
+						<a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del"><i class="layui-icon layui-icon-delete"></i>删除</a>
+					</script>
+				</div>
+			</div>
+		</div>
+
+		<script src="../../../layuiadmin/layui/layui.js"></script>
+		<script>
+			layui.config({
+				base: '../../../layuiadmin/' //静态资源所在路径
+			}).extend({
+				index: 'lib/index', //主入口模块
+			}).use(['index','table', 'form', 'soulTable','pubilc'], function() {
+				
+				var $ = layui.$,
+					form = layui.form,
+					table = layui.table,
+					soulTable = layui.soulTable,
+					pubilc = layui.pubilc,
+					tool = pubilc.tool;
+				/****************************************初始化*******************************************/
+				tool.init({
+					id:'LAY-user-manage',
+					fieldJson:{categoryName:''}
+				})
+				/****************************************数据获取绑定*******************************************/
+				//引入模板页
+				$("#component").load("../public/components.html");
+							
+				// 后台分页
+				//结算方式为统计结算/单品结算
+				tool.tableAjax({
+					url: '/news/newslist', //模拟接口
+					data:{su_id:tool.options.userId},
+					cols: [[
+						{field: 'id',width: 60,title: 'ID',sort: true,hide:true}, 
+							{field: 'channelId',width: 60,title: 'ID',sort: true,hide:true}, 
+							{field: 'title',width: 140,title: '文章标题'},
+							{field: 'source',width: 140,title: '文章来源'},
+							{field: 'img', title:'缩略图', templet: '#imgTpl', width: 100, align: 'center'},
+							{field: 'channelName',width: 140,title: '来源板块'},
+							{field: 'link',width: 140,title: '外部链接'},
+							{field: 'desc',width: 140,title: '简介'},
+							{field: 'pubDate',width: 140,title: '时间'},
+							{title: '操作',width: 100,align: 'center',fixed:'right',toolbar: '#table-useradmin-webuser'}
+					]],
+					handleData: function(res){
+						var t = {};
+						try{
+							t.code=res.code;t.msg = res.msg;t.count = res.data.total;t.data = res.data.data;
+//								t.data = opt.handleRes(t.data)
+						}catch{
+							t.code=-1;
+						}
+						return t;
+						/*************************************/
+		    		},
+					success:function(){
+						layer.photos({
+						  	photos: '.layui-table',
+						  	anim: 5 
+						}); 
+					}
+				})
+				/****************************************监听工具条*******************************************/
+				
+				//监听工具条
+				table.on('tool(LAY-user-manage)', function(obj) {
+					var data = obj.data;
+					if(obj.event === 'del') {
+						var upData = {};
+						upData.newId = data.newId;
+			          	tool.ajax({
+			          		url:'/news/delete',
+			          		data:upData,
+			          		success:function(res){
+			          			table.reload('LAY-user-manage', {
+						      		page: {
+						            	curr: 1
+						       		}
+						      	});
+			          		}
+			          	})
+					}
+				});
+					/****************************************页面事件*******************************************/
+
+				/***************************************查询条件事件******************************************/
+				
+			});
+		</script>
+	</body>
+
+</html>

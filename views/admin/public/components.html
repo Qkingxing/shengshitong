@@ -1,0 +1,280 @@
+<!--公共模板页-->
+<!--是否热门-->
+<script type="text/html" id="IsHotTpl">
+	{{#  if(d.IsHot==1){ }} 是
+	{{# }else if(d.IsHot==0){  }}否
+	{{# } }}
+</script>
+<!--是否显示-->
+<script type="text/html" id="showTpl">
+	{{#  if(d.is_show==1){ }} 是
+	{{# }else if(d.is_show==2){  }}否
+	{{# } }}
+</script>
+<!--是否最新 0是1否-->
+<script type="text/html" id="newTpl">
+	{{#  if(d.is_new==1){ }} 是
+	{{# }else if(d.is_new==2){  }}否
+	{{# } }}
+</script>
+<!--是否上架 0是1否-->
+<script type="text/html" id="upTpl">
+	{{#  if(d.is_up==1){ }} 是
+	{{# }else if(d.is_up==2){  }}否
+	{{# } }}
+</script>
+<!--是否最热 0是1否-->
+<script type="text/html" id="hotTpl">
+	{{#  if(d.is_hot==1){ }} 是
+	{{# }else if(d.is_hot==2){  }}否
+	{{# } }}
+</script>
+<!--是否是否外部链接 0是1否-->
+<script type="text/html" id="isOutTpl">
+	{{#  if(d.isOut==1){ }} 是
+	{{# }else if(d.isOut==0){  }}否
+	{{# } }}
+</script>
+<!--是否多买 0单1多-->
+<script type="text/html" id="typeTpl">
+	{{#  if(d.type==1){ }} 多卖
+	{{# }else if(d.type==0){  }}零售
+	{{# } }}
+</script>
+<!--是文章类型 1活动文章,2帮助中心文章,3开户文章-->
+<script type="text/html" id="typesTpl">
+	{{#  if(d.type==1){ }} 活动中心
+	{{# }else if(d.type==2){  }}帮助中心
+	{{# }else if(d.type==3){  }}打新课堂
+	{{# }else if(d.type==4){  }}盛世课堂
+	{{# }else if(d.type==5){  }}开户常见问题
+	{{# } }}
+</script>
+<!--是否多买 0单1多-->
+<script type="text/html" id="paytypeinfoTpl">
+	{{#  layui.each(d.paytypeinfo, function(index, item){ }}
+	    {{ item.paytype_name }};
+  	{{#  }); }}
+</script>
+<!--审核状态0是1否2审核中-->
+<script type="text/html" id="statusTpl">
+	{{#  if(d.status==0){ }} 成功
+	{{# }else if(d.status==1){  }}失败
+	{{# }else if(d.status==2){  }}审核中
+	{{# } }}
+</script>
+<!--审核状态0是1否2审核中-->
+<script type="text/html" id="PayTypeTpl">
+	{{#  if(d.PayType==0){ }} 对公转账
+	{{# }else if(d.PayType==1){  }}余额
+	{{# } }}
+</script>
+<!--人民币汇率-->
+<script type="text/html" id="MoneyTpl">
+	
+	parseInt({{ d.Money }})* parseInt({{ d.huilv  }})
+</script>
+<!--订单状态订单状态 0待支付1待签名 2待审核 3待结算 4结算中 5待赎回 8赎回中 9 赎回失败 6已赎回 7已驳回 10删除-->
+<script type="text/html" id="OrderStatusTpl">
+	{{#  if(d.OrderStatus==0){ }} 待支付
+	{{# }else if(d.OrderStatus==1){  }}待签名
+	{{# }else if(d.OrderStatus==2){  }}待审核
+	{{# }else if(d.OrderStatus==3){  }}待结算
+	{{# }else if(d.OrderStatus==4){  }}结算中
+	{{# }else if(d.OrderStatus==5){  }}待赎回
+	{{# }else if(d.OrderStatus==6){  }}已赎回
+	{{# }else if(d.OrderStatus==7){  }}已驳回 
+	{{# }else if(d.OrderStatus==8){  }}赎回中
+	{{# }else if(d.OrderStatus==9){  }}赎回失败
+	{{# } }}
+</script>
+<!--店铺头像-->
+<script type="text/html" id="company_busTpl">
+	<img  style="display: inline-block; width: 50%; height: auto;" name="imgZmList"  layer-pid="" layer-src="{{d.company_bus}}" src="{{d.company_bus}}" alt="{{d.company_bus}}的头像">
+</script>
+<!--商品主图头像-->
+<script type="text/html" id="goodsImgTpl">
+	<img  style="display: inline-block; width: 50%; height: auto;" name="imgZmList"  layer-pid="" layer-src="{{d.goods_img}}" src="{{d.goods_img}}" alt="{{d.goods_name}}">
+</script>
+<!--缩略图展示-->
+<script type="text/html" id="imageTpl">
+	<img  style="display: inline-block; width: 50%; height: auto;" name="image"  layer-pid="" layer-src="{{d.image}}" src="{{d.image}}" alt="{{d.name}}">
+</script>
+<!--缩略图展示-->
+<script type="text/html" id="picTpl">
+	<img  style="display: inline-block; width: 50%; height: auto;" name="pic"  layer-pid="" layer-src="{{d.pic}}" src="{{d.pic}}" alt="{{d.pic}}">
+</script>
+<!--缩略图展示-->
+<script type="text/html" id="imgTpl">
+	<img  style="display: inline-block; width: 50%; height: auto;" name="img"  layer-pid="" layer-src="{{d.img}}" src="{{d.img}}" alt="{{d.img}}">
+</script>
+<script type="text/html" id="fileTpl">
+	<img  style="display: inline-block; width: 50%; height: auto;" name="file"  layer-pid="" layer-src="{{d.file}}" src="{{d.file}}" alt="{{d.name}}">
+</script>
+<script type="text/html" id="pathTpl">
+	<img  style="display: inline-block; width: 50%; height: auto;" name="path"  layer-pid="" layer-src="{{d.path}}" src="{{d.path}}" alt="{{d.path}}">
+</script>
+<script type="text/html" id="PayImageTpl">
+	<img  style="display: inline-block; width: 50%; height: auto;" name="file"  layer-pid="" layer-src="{{d.PayImage}}" src="{{d.PayImage}}" alt="{{d.PayImage}}">
+</script>
+<script type="text/html" id="SingImageTpl">
+	<img  style="display: inline-block; width: 50%; height: auto;" name="SingImage"  layer-pid="" layer-src="{{d.SingImage}}" src="{{d.SingImage}}" alt="{{d.SingImage}}">
+</script>
+<script type="text/html" id="imgSrcTpl">
+	<img  style="display: inline-block; width: 50%; height: auto;" name="SingImage"  layer-pid="" layer-src="{{d.imgSrc}}" src="{{d.imgSrc}}" alt="{{d.imgSrc}}">
+</script>
+<!--审核状态0是1否2审核中-->
+<script type="text/html" id="flow_typeTpl">
+	{{#  if(d.flow_type==0){ }} 商品
+	{{# }else if(d.flow_type==1){  }}其他
+	{{# }else {  }}其他
+	{{# } }}
+</script>
+
+
+
+
+
+<!--性别-->
+<script type="text/html" id="sex">
+	{{#  if(d.sex==1){ }} 
+		男
+	{{# }else if(d.sex==2){  }}
+		女
+	{{# }else{  }}
+		保密
+	{{# } }}
+</script>
+<!--缩略图展示-->
+<script type="text/html" id="iconTpl">
+	<img  style="display: inline-block; width: 50%; height: auto;" name="imgZmList"  layer-pid="" layer-src="{{d.icon}}" src="{{d.icon}}" alt="{{d.name}}的头像">
+</script>
+<!--缩略图展示-->
+<script type="text/html" id="iconTpls">
+	<img  style="display: inline-block; width: 50%; height: auto;" name="imgZmList"  layer-pid="" layer-src="{{d.shopLogoUrl}}" src="{{d.shopLogoUrl}}" alt="{{d.shopName}}的头像">
+</script>
+
+<!--支付宝 收款码-->
+<script type="text/html" id="alipayImg">
+	<img  style="display: inline-block; width: 50%; height: auto;" name="alipayImg"  layer-pid="" layer-src="{{d.alipayImg}}" src="{{d.alipayImg}}" alt="{{d.name}}的支付宝收款码">
+</script>
+<!--微信收款码-->
+<script type="text/html" id="wechatImg">
+	<img  style="display: inline-block; width: 50%; height: auto;" name="wechatImg"  layer-pid="" layer-src="{{d.wechatImg}}" src="{{d.wechatImg}}" alt="{{d.name}}的微信收款码">
+</script>
+
+<!--按钮展示-->
+<script type="text/html" id="buttonTpl">
+	{{# if(d.check == true){ }}
+	<input type="checkbox" name="yyy" lay-skin="switch" lay-text="默认|关闭" checked>{{# } else { }}
+	<input type="checkbox" name="yyy" lay-skin="switch" lay-text="默认|关闭"> {{# } }}
+</script>
+<!--是否常用-->
+<script type="text/html" id="isUsingTpl">
+	{{#  if(d.isUsing==0){ }} 是
+	{{# }else if(d.isUsing==1){  }}否
+	{{# } }}
+</script>
+<!--一键开单-->
+<script type="text/html" id="isOneTpl">
+	{{#  if(d.isOne==0){ }} 开启
+	{{# }else if(d.isOne==1){  }}关闭
+	{{# } }}
+</script>
+<!--是否热门-->
+<script type="text/html" id="isHotTpl">
+	{{#  if(d.isHot==0){ }} 是
+	{{# }else if(d.isHot==1){  }}否
+	{{# } }}
+</script>
+<!--是否首页显示-->
+<script type="text/html" id="isShowTpl">
+	{{#  if(d.isShow==0){ }} 是
+	{{# }else if(d.isShow==1){  }}否
+	{{# } }}
+</script>
+<!--是否默认显示-->
+<script type="text/html" id="isDefaultTpl">
+	{{#  if(d.isDefault==0){ }} 是
+	{{# }else if(d.isDefault==1){  }}否
+	{{# } }}
+</script>
+<!--权限展示-->
+<script type="text/html" id="roleTpl">
+	{{#  if(d.roleID==0){ }} 超级管理员
+	{{# }else if(d.roleID==1){  }}付费用户（汽修厂）
+	{{# }else if(d.roleID==2){  }}接待员
+	{{# }else if(d.roleID==3){  }}普通用户
+	{{# } }}
+</script>
+<!--客户来源 1主动到店 2朋友介绍 3线上关注 4广告招商 5其他-->
+
+<script type="text/html" id="sourceTpl">
+	{{# if(d.source==1){ }} 主动到店
+	{{# }else if(d.source==2){  }}朋友介绍
+	{{# }else if(d.source==3){  }}线上关注
+	{{# }else if(d.source==4){  }}广告招商
+	{{# }else if(d.source==5){  }}其他
+	{{# } }}
+</script>
+<!--用户类型1个人车主 2出租车司机 3单位司机 4卡车司机 5其他-->
+<script type="text/html" id="typeTpl">
+	{{# if(d.type==1){ }}个人车主
+	{{# }else if(d.type==2){  }}出租车司机
+	{{# }else if(d.type==3){  }}单位司机
+	{{# }else if(d.type==4){  }}卡车司机
+	{{# }else if(d.type=='5'){  }}其他
+	{{# } }}
+</script>
+<!--银行卡状态 	状态0正常1删除-->
+<script type="text/html" id="yhkTpl">
+	{{# if(d.status==0 ){ }}
+	<input type="checkbox" name="status" lay-skin="switch" data-id='{{d.id}}' lay-filter="switchyhk" lay-text="默认|关闭" checked>{{# }else if(d.status==1){ }}
+	<input type="checkbox" name="status" lay-skin="switch" data-id='{{d.id}}' lay-filter="switchyhk" lay-text="默认|关闭"> {{# } }}
+</script>
+<!--vip卡类型1储值卡 2次卡 3年卡 4套餐卡-->
+<script type="text/html" id="ViptypeTpl">
+	{{# if(d.type==1){ }}储值卡
+	{{# }else if(d.type==2){  }}次卡
+	{{# }else if(d.type==3){  }}年卡
+	{{# }else if(d.type==4){  }}套餐卡
+	{{# } }}
+</script>
+
+<!--支付状态0未支付，1已支付，2挂账结算-->
+<script type="text/html" id="payStatusTpl">
+	{{# if(d.payStatus==0){ }}未支付
+	{{# }else if(d.payStatus==1){  }}已支付
+	{{# }else if(d.payStatus==2){  }}挂账结算
+	{{# } }}
+</script>
+<!--工(订)单状态 1待施工 2施工中 3已完成 4待审核 -->
+<script type="text/html" id="stateTpls">
+	{{# if(d.state==1){ }}待施工
+	{{# }else if(d.state==2){  }}施工中
+	{{# }else if(d.state==3){  }}已完成
+	{{# }else if(d.state==4){  }}待审核 
+	{{# } }}
+</script>
+<!--是否使用了会员卡0是1否 -->
+<script type="text/html" id="isViptpl">
+	{{# if(d.isVip==0){ }}是
+	{{# }else if(d.isVip==1){  }}否
+	{{# } }}
+</script>
+<!--支付方式：0微信1支付宝，2线下，3挂账-->
+<script type="text/html" id="payTypetpl">
+	{{# if(d.payType==0){ }}微信
+	{{# }else if(d.payType==1){  }}支付宝
+	{{# }else if(d.payType==2){  }}线下
+	{{# }else if(d.payType==3){  }}挂账
+	{{# } }}
+</script>
+
+
+<!--会员卡是否常用显示-->
+<script type="text/html" id="isOftenTpl">
+	{{#  if(d.isOften==0){ }} 是
+	{{# }else if(d.isOften==1){  }}否
+	{{# } }}
+</script>

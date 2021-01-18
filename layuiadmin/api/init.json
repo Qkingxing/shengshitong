@@ -1,0 +1,44 @@
+{
+	"code": 0,
+	"msg": "ok",
+	"data": [
+		{
+			"id": 1,
+			"parentId": null,
+			"code": "console",
+			"title": "控制台",
+			"icon": "layui-icon-home",
+			"enable": true,
+			"href": "home/console.html"
+		},
+		{
+			"id": 2,
+			"parentId": null,
+			"code": "shop",
+			"title": "产品管理",
+			"icon": "layui-icon-cart",
+			"enable": true,
+			"href": "",
+			"children": [
+				{
+					"id": 12,
+					"parentId": 1,
+					"code": "purchase",
+					"title": "产品分类",
+					"icon": "",
+					"enable": true,
+					"href": ""
+				},
+				{
+					"id": 12,
+					"parentId": 1,
+					"code": "purchaseClassify",
+					"title": "产品列表",
+					"icon": "",
+					"enable": true,
+					"href": ""
+				}
+			]
+		}
+	]
+}

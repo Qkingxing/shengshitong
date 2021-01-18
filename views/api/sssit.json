@@ -1,0 +1,46 @@
+{
+	"code": 0,
+	"msg": "ok",
+	"data": [
+		{
+			"id": 2,
+			"parentId": null,
+			"code": "shop",
+			"title": "收益管理",
+			"icon": "layui-icon-cart",
+			"enable": true,
+			"href": "",
+			"children": [
+				{
+					"id": 32,
+					"parentId": 3,
+					"code": "dis",
+					"title": "用户列表",
+					"icon": "",
+					"enable": true,
+					"href": "admin/distribu/distributList.html"
+				}
+			]
+		},
+		{
+			"id": 3,
+			"parentId": null,
+			"code": "order",
+			"title": "订单管理",
+			"icon": "layui-icon-cart",
+			"enable": true,
+			"href": "",
+			"children": [
+				{
+					"id": 32,
+					"parentId": 3,
+					"code": "company",
+					"title": "订单列表",
+					"icon": "",
+					"enable": true,
+					"href": "admin/order/userlist.html"
+				}
+			]
+		}
+	]
+}

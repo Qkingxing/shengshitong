@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title>产品管理-自定义新股</title>
+		<meta name="renderer" content="webkit">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
+		<link rel="stylesheet" href="../../../layuiadmin/layui/css/layui.css" media="all">
+		<link rel="stylesheet" href="../../../layuiadmin/style/admin.css" media="all">
+		<link rel="stylesheet" href="../../../layuiadmin/lib/extend/soulTable/soulTable.css" media="all" />
+	</head>
+
+	<body>
+
+		<div class="layui-fluid">
+			<div class="layui-card">
+				<div class="layui-form layui-card-header layuiadmin-card-header-auto">
+					<div class="layui-form-item">
+						<div class="layui-inline">
+							<label class="layui-form-label">姓名：</label>
+							<div class="layui-input-block">
+								<input type="text" name="name" placeholder="请输入" autocomplete="off" class="layui-input searchClear">
+							</div>
+						</div>
+						<div class="layui-inline">
+							<label class="layui-form-label">手机号：</label>
+							<div class="layui-input-block">
+								<input type="text" name="phoneNum" placeholder="请输入" autocomplete="off" class="layui-input searchClear">
+							</div>
+						</div>
+						<div class="layui-inline">
+							<button class="layui-btn" lay-submit lay-filter="searchFilter">
+              					<i class="layui-icon layui-icon-search layuiadmin-button-btn"></i>
+            				</button>
+            				<button class="layui-btn" lay-submit lay-filter="clearFilter">
+								清空
+							</button>
+						</div>
+					</div>
+				</div>
+
+				<div class="layui-card-body">
+					<div style="padding-bottom: 10px;">
+						<button class="layui-btn layuiadmin-btn-useradmin" data-type="batchdel">删除</button>
+						<button class="layui-btn layuiadmin-btn-useradmin" data-type="add">添加</button>
+					</div>
+					
+					<!--<script type="text/html" id="toolbar">
+						<div style="padding-bottom: 10px;">
+							<button class="layui-btn layuiadmin-btn-useradmin" data-type="batchdel">删除</button>
+							<button class="layui-btn layuiadmin-btn-useradmin" data-type="add">添加</button>
+						</div>
+					</script>-->
+					
+					<table id="LAY-user-manage" lay-filter="LAY-user-manage"></table>
+					<div id='component'></div>
+					<script type="text/html" id="table-useradmin-webuser">
+						{{#  if(d.State==1){ }}
+							<a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="edit"><i class="layui-icon layui-icon-edit"></i>编辑</a>
+							<a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del"><i class="layui-icon layui-icon-delete"></i>删除</a>
+						{{# } }}
+						{{#  if(d.State==0){ }}
+							<a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="sheding"><i class="layui-icon layui-icon-edit"></i>最终收益</a>
+						{{# } }}
+						{{#  if(d.State==3){ }}
+							<a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="shedings"><i class="layui-icon layui-icon-edit"></i>已设最终收益</a>
+						{{# } }}
+					</script>
+				</div>
+			</div>
+		</div>
+
+		<script src="../../../layuiadmin/layui/layui.js"></script>
+		<script>
+			layui.config({
+				base: '../../../layuiadmin/' //静态资源所在路径
+			}).extend({
+				index: 'lib/index', //主入口模块
+			}).use(['index','table', 'form', 'soulTable','pubilc'], function() {
+				
+				var $ = layui.$,
+					form = layui.form,
+					table = layui.table,
+					soulTable = layui.soulTable,
+					pubilc = layui.pubilc,
+					tool = pubilc.tool;
+				/****************************************初始化*******************************************/
+				//引入模板页
+				$("#component").load("../public/components.html");
+				
+				tool.init({
+					id:'LAY-user-manage',
+					fieldJson:{name:'',phoneNum:'',wxNum:''}
+				})
+				/****************************************数据获取绑定*******************************************/
+				
+				// 后台分页
+				tool.tableAjax({
+					url:  'product/show?isCss=2', //模拟接口
+					cols: [[
+						{type: 'checkbox',fixed: 'left'},
+//						{field: 'Id',width: 60,title: 'ID',sort: true}, 
+						{field: 'Name',width: 140,title: '产品名称'},
+						{field: '首月收益',width: 100,title: '首月收益%'},
+						{field: 'FirstEarnings',width: 100,title: '次月开始收益%'},
+						{field: 'Explowest',width: 100,title: '充值最小金额'},
+						{field: 'Exphighest',width: 100,title: '充值最大金额'},
+						{field: 'period',width: 130,title: '周期时间/月'},
+						{field: 'yearsy',width: 110,title: '周期收益率/月'},
+//						{field: 'Deadline',width: 140,title: '截止时间'},
+						{field: 'Price',width: 140,title: '价格'},
+						{field: 'IsHot', title:'是否热门', templet: '#IsHotTpl', width: 100, align: 'center'},
+//						{field: 'FinallyGains',width: 200,title: '最终收益%'},
+						{field: 'ProductContent',width: 200,title: '产品简介'},
+//						{title: '操作',width: 260,align: 'center',fixed:'right',toolbar: '#table-useradmin-webuser'}
+					]],
+					success:function(){
+//						layer.photos({
+//						  	photos: '.layui-table',
+//						  	anim: 5 
+//						}); 
+					}
+				})
+				//监听工具条
+				table.on('tool(LAY-user-manage)', function(obj) {
+					var data = obj.data;
+					if(obj.event === 'del') {
+						layer.confirm('确定删除该条数据？', function(index) {
+							tool.ajax({
+				          		url:'product/delete',
+				          		data:{id:data.Id,DeleteStatus:0},
+				          		success:function(res){
+				          			obj.del();
+									layer.close(index);
+									layer.msg('删除成功')
+				          		}
+				          	})
+						});
+					}else if(obj.event === 'sheding') {
+						var tr = $(obj.tr);
+						layer.open({
+							title:'编辑',btn: ['确定', '取消'],
+							type: 2,shade: false,area: ['750px', '500px'],maxmin: true,zIndex: 999,
+							content: "sheding.html",
+							yes: function(index, layero){
+						        var upData = tool.getEdit(layero);
+					          	obj.update(upData);
+					          	upData.Id = data.Id;
+					          	upData.State = 3;
+					          	layer.confirm('确定设定最终收益吗？', function(index) {
+									layer.confirm('设定成功后不能进行更改，确认提交？', function(index) {
+										tool.ajax({
+							          		url:'product/earnings',
+							          		data:upData,
+							          		success:function(res){
+							          			layer.closeAll()
+							          		}
+							          	})
+									});
+								});
+					          	
+					        },
+					        success: function(layero, index){
+					        	layer.setTop(layero);
+					        	tool.setEdit({layero:layero,data:data})
+					        }
+						});
+					} else if(obj.event === 'edit') {
+						var tr = $(obj.tr);
+						layer.open({
+							title:'编辑',btn: ['确定', '取消'],
+							type: 2,shade: false,area: ['750px', '500px'],maxmin: true,zIndex: 999,
+							content: "listAdd.html?type=edit",
+							yes: function(index, layero){
+						        var upData = tool.getEdit(layero);
+					          	obj.update(upData);
+					          	upData.Id = data.Id;
+					          	upData.RateOfReturn = upData.RateOfReturn1+'-'+upData.RateOfReturn2;
+					          	tool.ajax({
+					          		url:'product/merger',
+					          		data:upData,
+					          		success:function(res){
+					          			layer.close(index);
+					          		}
+					          	})
+					        },
+					        success: function(layero, index){
+					        	layer.setTop(layero);
+					        	tool.setEdit({layero:layero,data:data})
+					        }
+						});
+					}
+				});
+
+				/****************************************页面事件*******************************************/
+
+				$('.layui-btn.layuiadmin-btn-useradmin').on('click', function() {
+					var type = $(this).data('type');
+					type=='batchdel' ? tool.active.batchdel({
+						url:  '',
+						data:  {},
+					}) : ''
+					type=='add' ? tool.active.add({
+						title:'新增',
+//						area:['100%','100%'],
+						url: "listAdd.html?type=add",
+						success:function(layero,othis){
+							var upData = tool.getEdit(layero);
+//				          	upData.RateOfReturn = upData.RateOfReturn1+'-'+upData.RateOfReturn2;
+				          	upData.isCss = 2;
+				          	tool.ajax({
+				          		url:'product/merger',
+				          		data:upData,
+				          		success:function(res){
+				          			table.reload('LAY-user-manage', {
+							      		page: {
+							            	curr: 1
+							       		}
+							      	});
+				          		}
+				          	})
+						}
+					}) : ''
+				});
+			});
+		</script>
+	</body>
+
+</html>

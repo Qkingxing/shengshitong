@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title>订单管理</title>
+		<meta name="renderer" content="webkit">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
+		<link rel="stylesheet" href="../../../layuiadmin/layui/css/layui.css" media="all">
+		<link rel="stylesheet" href="../../../layuiadmin/style/admin.css" media="all">
+		<link rel="stylesheet" href="../../../layuiadmin/lib/extend/soulTable/soulTable.css" media="all" />
+	</head>
+
+	<body>
+
+		<div class="layui-fluid">
+			<div class="layui-card">
+				<div class="layui-form layui-card-header layuiadmin-card-header-auto">
+					<div class="layui-form-item">
+						
+						<div class="layui-inline">
+							<label class="layui-form-label">用户姓名：</label>
+							<div class="layui-input-block">
+								<input type="text" name="name" placeholder="请输入" autocomplete="off" class="layui-input searchClear">
+							</div>
+						</div>
+						<div class="layui-inline">
+							<label class="layui-form-label">银行卡号：</label>
+							<div class="layui-input-block">
+								<input type="text" name="baknumber" placeholder="请输入" autocomplete="off" class="layui-input searchClear">
+							</div>
+						</div>
+						<div class="layui-inline">
+							<button class="layui-btn" lay-submit lay-filter="searchFilter">
+              					<i class="layui-icon layui-icon-search layuiadmin-button-btn"></i>
+            				</button>
+            				<button class="layui-btn" lay-submit lay-filter="clearFilter">
+								清空
+							</button>
+						</div>
+					</div>
+				</div>
+
+				<div class="layui-card-body">
+					<!--<div style="padding-bottom: 10px;">
+						<button class="layui-btn layuiadmin-btn-useradmin" data-type="batchdel">删除</button>
+						<button class="layui-btn layuiadmin-btn-useradmin" data-type="add">添加</button>
+					</div>-->
+					
+					<!--<script type="text/html" id="toolbar">
+						<div style="padding-bottom: 10px;">
+							<button class="layui-btn layuiadmin-btn-useradmin" data-type="batchdel">删除</button>
+							<button class="layui-btn layuiadmin-btn-useradmin" data-type="add">添加</button>
+						</div>
+					</script>-->
+					
+					<table id="LAY-user-manage" lay-filter="LAY-user-manage"></table>
+					<div id='component'></div>
+					<!--{{#  if(d.OrderStatus==0){ }} 待支付
+						{{# }else if(d.OrderStatus==1){  }}待签名
+						{{# }else if(d.OrderStatus==2){  }}
+							<a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="edit"><i class="layui-icon layui-icon-edit"></i>审核成功</a>
+							<a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del1"><i class="layui-icon layui-icon-delete"></i>支付驳回</a>
+							<a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del2"><i class="layui-icon layui-icon-delete"></i>签名驳回</a>
+						{{# }else if(d.OrderStatus==3){  }}待结算
+						{{# }else if(d.OrderStatus==4){  }}结算中
+						{{# }else if(d.OrderStatus==5){  }}待赎回
+							<a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del3"><i class="layui-icon layui-icon-delete"></i>赎回审核</a>
+						{{# }else if(d.OrderStatus==6){  }}已赎回
+						{{# }else if(d.OrderStatus==7){  }}已驳回 
+						{{# }else if(d.OrderStatus==8){  }}赎回中
+						{{# }else if(d.OrderStatus==9){  }}赎回失败
+						{{# } }}-->
+					<script type="text/html" id="table-useradmin-webuser">
+						<a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="edit"><i class="layui-icon layui-icon-edit"></i>审核成功</a>
+						<a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del1"><i class="layui-icon layui-icon-delete"></i>驳回</a>
+						<a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="see"><i class="layui-icon layui-icon-delete"></i>查看客户信息</a>
+						
+					</script>
+				</div>
+			</div>
+		</div>
+
+		<script src="../../../layuiadmin/layui/layui.js"></script>
+		<script>
+			layui.config({
+				base: '../../../layuiadmin/' //静态资源所在路径
+			}).extend({
+				index: 'lib/index', //主入口模块
+			}).use(['index','table', 'form', 'soulTable','pubilc','laydate'], function() {
+				
+				var $ = layui.$,
+					form = layui.form,
+					table = layui.table,
+					soulTable = layui.soulTable,
+					pubilc = layui.pubilc,
+					laydate = layui.laydate,
+					tool = pubilc.tool;
+				/****************************************初始化*******************************************/
+				//引入模板页
+				$("#component").load("../public/components.html");
+				
+				tool.init({
+					id:'LAY-user-manage',
+					fieldJson:{name:'',baknumber:''}
+				})
+				laydate.render({
+				    elem: '#LAY-component-form-group-date' //指定元素
+				    ,type: 'date'
+					,trigger: 'click'
+				});
+				/****************************************数据获取绑定*******************************************/
+				
+				// 后台分页
+				tool.tableAjax({
+					url:  'order/benjinshenhelist?Status=0', //模拟接口
+					cols: [[
+						{type: 'checkbox',fixed: 'left'},
+						{field: 'benjin_id',width: 60,title: 'ID',sort: true}, 
+						{field: 'name',width: 140,title: '客户姓名'},
+						{field: 'id_number',width: 180,title: '身份证'},
+						{field: 'baknumber',width: 180,title: '银行卡号'},
+						{field: 'Money',width: 140,title: '提款金额'},
+						{field: 'yh_name',width: 140,title: '银行名称'},
+						{field: 'back_name',width: 140,title: '支行名称'},
+						{field: 'huilvs',width: 140,title: '汇率'},
+						{field: 'Moneys',width: 140,title: '相当于人民币'},
+//						{ field: 'ExchangePrice',width: 130, title: '汇率' , templet: function (d) {
+//						        return d.ExchangePrice *100 / 10000;
+//						    }
+//						}, 
+//						{ field: 'ExchangePrice',width: 130, title: '相当于人民币' , templet: function (d) {
+//						        return d.Money * d.ExchangePrice / 100;
+//						    }
+//						}, 
+						{field: 'createTime',width: 140,title: '发起时间'},
+						{title: '操作',width: 300,align: 'center',fixed:'right',toolbar: '#table-useradmin-webuser'}
+					]],
+					handleData: function(res){
+						var t = {};
+						try{
+							var items = res.data.data;
+							//基本信息
+							for(k in items){
+								items[k].id_number = ' '+items[k].id_number+"\t";
+								items[k].baknumber = ' '+items[k].baknumber+"\t";
+								items[k].createTime = ' '+items[k].createTime+"\t";
+								items[k].huilvs = (items[k].ExchangePrice/100).toFixed(4);
+								items[k].Moneys = (items[k].Money * items[k].ExchangePrice/100).toFixed(2);
+							}
+							t.code=res.code;t.msg = res.msg;t.count = res.data.total;t.data = res.data.data;
+//								t.data = opt.handleRes(t.data)
+						}catch{
+							t.code=-1;
+						}
+						return t;
+						/*************************************/
+		    		},
+					success:function(){
+						layer.photos({
+						  	photos: '.layui-table',
+						  	anim: 5 
+						}); 
+					}
+				})
+				//监听工具条
+				table.on('tool(LAY-user-manage)', function(obj) {
+					var data = obj.data;
+					var tr = $(obj.tr);
+					if(obj.event === 'del1') {//支付驳回
+						layer.open({
+							title:'审批驳回',btn: ['确定', '取消'],
+							type: 2,shade: false,area: ['750px', '500px'],maxmin: true,zIndex: 999,
+							content: "shenhe.html",
+							yes: function(index, layero){
+						        var upData = tool.getEdit(layero);
+					          	obj.update(upData);
+					          	upData.benjin_id = data.benjin_id;
+					          	upData.Status = 2;//上传凭证驳回
+					          	tool.ajax({
+					          		url:'order/zhixingshenhe',
+					          		data:upData,
+					          		success:function(res){
+					          			table.reload('LAY-user-manage', {
+								      		page: {
+								            	curr: 1
+								       		}
+								      	});
+								      	layer.close(index);
+					          		}
+					          	})
+					        },
+					        success: function(layero, index){
+					        	layer.setTop(layero);
+					        	tool.setEdit({layero:layero,data:data})
+					        }
+						});
+					}else if(obj.event === 'edit') {//审核成功
+						tool.ajax({
+			          		url:'order/zhixingshenhe',
+			          		data:{benjin_id:data.benjin_id,Status:1},
+			          		success:function(res){
+			          			table.reload('LAY-user-manage', {
+						      		page: {
+						            	curr: 1
+						       		}
+						      	});
+						      	layer.close(index);
+			          		}
+			          	})
+					}else if(obj.event === 'see') {//审核成功
+//						sst.dalaokj.com//
+						window.location.href='../order/see.html?id='+data.user_id
+//						tool.ajax({
+//			          		url:'order/merger',
+//			          		data:{ID:data.Id,OrderStatus:3,user_id:data.user_id},
+//			          		success:function(res){
+//			          			table.reload('LAY-user-manage', {
+//							      		page: {
+//							            	curr: 1
+//							       		}
+//							      	});
+//			          		}
+//			          	})
+					}
+				});
+			});
+		</script>
+	</body>
+
+</html>

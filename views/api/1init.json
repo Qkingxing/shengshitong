@@ -1,0 +1,327 @@
+{
+	"code": 0,
+	"msg": "ok",
+	"data": [
+		{
+			"id": 1,
+			"parentId": null,
+			"code": "console",
+			"title": "控制台",
+			"icon": "layui-icon-home",
+			"enable": true,
+			"href": "home/console.html"
+		},
+		{
+			"id": 2,
+			"parentId": null,
+			"code": "shop",
+			"title": "产品管理",
+			"icon": "layui-icon-cart",
+			"enable": true,
+			"href": "",
+			"children": [
+				{
+					"id": 12,
+					"parentId": 1,
+					"code": "purchaseClassify",
+					"title": "产品列表",
+					"icon": "",
+					"enable": true,
+					"href": "admin/product/list.html"
+				},
+				{
+					"id": 12,
+					"parentId": 1,
+					"code": "purchaseClassify",
+					"title": "产品协议",
+					"icon": "",
+					"enable": true,
+					"href": "admin/product/xieyi.html"
+				},
+				{
+					"id": 12,
+					"parentId": 1,
+					"code": "purchaseClassify",
+					"title": "产品协议",
+					"icon": "",
+					"enable": true,
+					"href": "admin/product/xieyi2.html"
+				}
+			]
+		},
+		{
+			"id": 2,
+			"parentId": null,
+			"code": "shop",
+			"title": "用户管理",
+			"icon": "layui-icon-cart",
+			"enable": true,
+			"href": "",
+			"children": [
+				{
+					"id": 12,
+					"parentId": 1,
+					"code": "userlevel",
+					"title": "用户升星申请",
+					"icon": "",
+					"enable": true,
+					"href": "admin/user/userlevel.html"
+				},{
+					"id": 32,
+					"parentId": 3,
+					"code": "dis",
+					"title": "用户列表",
+					"icon": "",
+					"enable": true,
+					"href": "admin/distribu/distributList.html"
+				},{
+					"id": 32,
+					"parentId": 3,
+					"code": "dis",
+					"title": "收益记录",
+					"icon": "",
+					"enable": true,
+					"href": "admin/jilu/jilu1.html"
+				},{
+					"id": 32,
+					"parentId": 3,
+					"code": "dis",
+					"title": "推广奖励",
+					"icon": "",
+					"enable": true,
+					"href": "admin/jilu/jilu2.html"
+				},{
+					"id": 32,
+					"parentId": 3,
+					"code": "dis",
+					"title": "红包记录",
+					"icon": "",
+					"enable": true,
+					"href": "admin/jilu/jilu3.html"
+				},{
+					"id": 32,
+					"parentId": 3,
+					"code": "dis",
+					"title": "体验金记录",
+					"icon": "",
+					"enable": true,
+					"href": "admin/jilu/jilu3.html"
+				}
+			]
+		},
+		{
+			"id": 2,
+			"parentId": null,
+			"code": "shop",
+			"title": "新股管理",
+			"icon": "layui-icon-cart",
+			"enable": true,
+			"href": "",
+			"children": [
+				{
+					"id": 12,
+					"parentId": 1,
+					"code": "purchaseClassify",
+					"title": "已递表",
+					"icon": "",
+					"enable": true,
+					"href": "admin/product/ydblist.html"
+				},{
+					"id": 12,
+					"parentId": 1,
+					"code": "purchaseClassify",
+					"title": "可认购",
+					"icon": "",
+					"enable": true,
+					"href": "admin/product/krglist.html"
+				},{
+					"id": 12,
+					"parentId": 1,
+					"code": "purchaseClassify",
+					"title": "待上市",
+					"icon": "",
+					"enable": true,
+					"href": "admin/product/dsslist.html"
+				},{
+					"id": 12,
+					"parentId": 1,
+					"code": "purchaseClassify",
+					"title": "已上市",
+					"icon": "",
+					"enable": true,
+					"href": "admin/product/ysslist.html"
+				}
+			]
+		},
+		{
+			"id": 2,
+			"parentId": null,
+			"code": "shop",
+			"title": "基础管理",
+			"icon": "layui-icon-cart",
+			"enable": true,
+			"href": "",
+			"children": [
+				{
+					"id": 12,
+					"parentId": 1,
+					"code": "company",
+					"title": "收款账号",
+					"icon": "",
+					"enable": true,
+					"href": "admin/basic/company.html"
+				},{
+					"id": 12,
+					"parentId": 1,
+					"code": "company",
+					"title": "银行管理",
+					"icon": "",
+					"enable": true,
+					"href": "admin/basic/bank.html"
+				}
+			]
+		},
+		{
+			"id": 3,
+			"parentId": null,
+			"code": "article",
+			"title": "文章管理",
+			"icon": "layui-icon-cart",
+			"enable": true,
+			"href": "",
+			"children": [
+				{
+					"id": 12,
+					"parentId": 1,
+					"code": "article",
+					"title": "文章分类",
+					"icon": "",
+					"enable": true,
+					"href": "admin/article/sort.html"
+				},{
+					"id": 12,
+					"parentId": 1,
+					"code": "article",
+					"title": "文章列表",
+					"icon": "",
+					"enable": true,
+					"href": "admin/article/list.html"
+				}
+			]
+		},
+		{
+			"id": 3,
+			"parentId": null,
+			"code": "article",
+			"title": "新闻管理",
+			"icon": "layui-icon-cart",
+			"enable": true,
+			"href": "",
+			"children": [
+				{
+					"id": 13,
+					"parentId": 3,
+					"code": "article",
+					"title": "新闻列表",
+					"icon": "",
+					"enable": true,
+					"href": "admin/article/upnew.html"
+				},{
+					"id": 14,
+					"parentId": 3,
+					"code": "article",
+					"title": "已收藏",
+					"icon": "",
+					"enable": true,
+					"href": "admin/article/ingNew.html"
+				}
+			]
+		},{
+			"id": 3,
+			"parentId": null,
+			"code": "article",
+			"title": "新股资讯",
+			"icon": "layui-icon-cart",
+			"enable": true,
+			"href": "",
+			"children": [
+				{
+					"id": 15,
+					"parentId": 3,
+					"code": "article",
+					"title": "新股资讯",
+					"icon": "",
+					"enable": true,
+					"href": "admin/article/newnew.html"
+				}
+				,{
+					"id": 15,
+					"parentId": 3,
+					"code": "article",
+					"title": "新股已收藏",
+					"icon": "",
+					"enable": true,
+					"href": "admin/article/ingNews.html"
+				}
+			]
+		},
+		{
+			"id": 3,
+			"parentId": null,
+			"code": "order",
+			"title": "订单管理",
+			"icon": "layui-icon-cart",
+			"enable": true,
+			"href": "",
+			"children": [
+				{
+					"id": 32,
+					"parentId": 3,
+					"code": "company",
+					"title": "订单列表",
+					"icon": "",
+					"enable": true,
+					"href": "admin/order/list.html"
+				},
+				{
+					"id": 33,
+					"parentId": 3,
+					"code": "company",
+					"title": "凭证/签名订单",
+					"icon": "",
+					"enable": true,
+					"href": "admin/order/list1.html"
+				}
+			]
+		},
+		{
+			"id": 4,
+			"parentId": null,
+			"code": "order",
+			"title": "财务管理",
+			"icon": "layui-icon-cart",
+			"enable": true,
+			"href": "",
+			"children": [
+				{
+					"id": 32,
+					"parentId": 3,
+					"code": "dis",
+					"title": "提现管理",
+					"icon": "",
+					"enable": true,
+					"href": "admin/tixian/list.html"
+				},
+				{
+					"id": 32,
+					"parentId": 3,
+					"code": "dis",
+					"title": "本金提现",
+					"icon": "",
+					"enable": true,
+					"href": "admin/tixian/txbj.html"
+				}
+			]
+		}
+	]
+}

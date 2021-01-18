@@ -1,0 +1,164 @@
+
+
+<!DOCTYPE html>
+
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title>文章分类</title>
+		<meta name="renderer" content="webkit">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
+		<link rel="stylesheet" href="../../../layuiadmin/layui/css/layui.css" media="all">
+		<link rel="stylesheet" href="../../../layuiadmin/style/admin.css" media="all">
+		<!--<link rel="stylesheet" href="../../../layuiadmin/lib/extend/soulTable/soulTable.css" media="all" />-->
+		<style>
+			.laytable-cell-*-0-1{
+				padding-left:30px;
+			}
+			.layui-table-body .layui-none{
+				height:0;
+				padding:0;
+			}
+			td['data-field'="name"]{
+				padding-left:30px;
+			}
+			
+		</style>
+	</head>
+
+	<body>
+
+		<div class="layui-fluid">
+			<div class="layui-card">
+				
+
+				<div class="layui-card-body">
+					<div style="padding-bottom: 10px;">
+						<button class="layui-btn layuiadmin-btn-useradmin" data-type="batchdel">删除</button>
+						<button class="layui-btn layuiadmin-btn-useradmin" data-type="add">添加</button>
+					</div>
+					<table id="LAY-user-manage" lay-filter="LAY-user-manage"></table>
+					<div id='component'></div>
+					<script type="text/html" id="table-useradmin-webuser">
+						<a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="edit"><i class="layui-icon layui-icon-edit"></i>编辑</a>
+					</script>
+				</div>
+			</div>
+		</div>
+
+		<script src="../../../layuiadmin/layui/layui.js"></script>
+		<script>
+			layui.config({
+				base: '../../../layuiadmin/' //静态资源所在路径
+			}).extend({
+				index: 'lib/index', //主入口模块
+			}).use(['index','table', 'form', 'soulTable','pubilc'], function() {
+				var $ = layui.$,
+					form = layui.form,
+					table = layui.table,
+					soulTable = layui.soulTable,
+					pubilc = layui.pubilc,
+					tool = pubilc.tool;
+				/****************************************初始化*******************************************/
+				tool.init({id:'LAY-user-manage',fieldJson:{}})
+				/****************************************数据获取绑定*******************************************/
+				//引入模板页
+				$("#component").load("../public/components.html");
+				tool.tableAjax({
+					url: 'user/bankinfo', //模拟接口
+					data:{su_id:tool.options.userId},
+					cols: [[
+						{field: 'id',width: 400,title: 'id',hide:true},
+			            {field: 'name',width: 400,title: '银行名称'},
+						{field: 'path', title:'缩略图', templet: '#pathTpl', width: 100, align: 'center'},
+						{title: '操作',width: 150,align: 'center',toolbar: '#table-useradmin-webuser'}
+					]],
+					handleData: function(res){
+						var t = {};
+						try{
+							t.code=res.code;t.msg = res.msg;t.count = res.data.length;t.data = res.data;
+//								t.data = opt.handleRes(t.data)
+						}catch{
+							t.code=-1;
+						}
+						return t;
+						/*************************************/
+		    		},
+		    		limit:9999,
+					success:function(){
+						layer.photos({
+						  	photos: '.layui-table',
+						  	anim: 5 
+						}); 
+					}
+				})
+				
+				table.on('tool', function(obj) {
+					var data = obj.data;
+					if(obj.event === 'edit') {
+						var tr = $(obj.tr);
+						layer.open({
+							title:'编辑',btn: ['确定', '取消'],
+							type: 2,shade: false,area: ['500px', '500px'],maxmin: true,
+							content: "sortFrom.html",
+							yes: function(index, layero){
+						        var upData = tool.getEdit(layero);
+					          	upData.id = data.id;
+					          	tool.ajax({
+					          		url:'user/bankcreat',
+					          		data:upData,
+					          		success:function(res){
+					          			table.reload('LAY-user-manage', {
+								      		page: {
+								            	curr: 1
+								       		}
+								      	});
+					          			layer.close(index);
+					          		}
+					          	})
+					        },
+					        success: function(layero, index){
+					        	layer.setTop(layero);
+					        	tool.setEdit({layero:layero,data:data})
+					        }
+						});
+					}
+				});
+				
+
+				/****************************************页面事件*******************************************/
+
+				$('.layui-btn.layuiadmin-btn-useradmin').on('click', function() {
+					var type = $(this).data('type');
+					type=='batchdel' ? tool.active.batchdel({
+						url:  '',
+						data:  {},
+					}) : ''
+					type=='add' ? tool.active.add({
+						title:'新增',
+						url: "sortFrom.html",
+						success:function(layero,othis){
+//							var tags = othis.find('input[name="name"]').val();
+							var upData = tool.getEdit(layero);
+							tool.ajax({
+				          		url:'user/bankcreat',
+				          		data:upData,
+				          		success:function(res){
+				          			table.reload('LAY-user-manage', {
+							      		page: {
+							            	curr: 1
+							       		}
+							      	});
+				          		}
+				          	})
+							
+						}
+					}) : ''
+				});
+			});
+		</script>
+	</body>
+
+</html>

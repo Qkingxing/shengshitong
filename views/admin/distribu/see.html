@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title>用户管理-用户</title>
+		<meta name="renderer" content="webkit">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
+		<link rel="stylesheet" href="../../../layuiadmin/layui/css/layui.css" media="all">
+		<link rel="stylesheet" href="../../../layuiadmin/style/admin.css" media="all">
+		<link rel="stylesheet" href="../../../layuiadmin/lib/extend/soulTable/soulTable.css" media="all" />
+	</head>
+
+	<body>
+		<div class="layui-fluid ">
+			<a class="layui-btn layui-bg-cyan" onClick="javascript:history.go(-1)">
+				<i class="layui-icon layui-icon-return"></i>返回
+			</a>
+		</div>
+		<div class="layui-fluid">
+			<div class="layui-card">
+
+				<div class="layui-card-body">
+					
+					<script type="text/html" id="toolbar">
+						<div style="padding-bottom: 10px;">
+							<button class="layui-btn layuiadmin-btn-useradmin" data-type="add">添加</button>
+						</div>
+					</script>
+					
+					<table id="LAY-user-manage" lay-filter="LAY-user-manage"></table>
+					<div id='component'></div>
+					<script type="text/html" id="table-useradmin-webuser">
+						
+						<a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="edit"><i class="layui-icon layui-icon-edit"></i>编辑</a>
+						<a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del"><i class="layui-icon layui-icon-delete"></i>删除</a>
+					</script>
+				</div>
+			</div>
+		</div>
+
+		<script src="../../../layuiadmin/layui/layui.js"></script>
+		<script>
+			layui.config({
+				base: '../../../layuiadmin/' //静态资源所在路径
+			}).extend({
+				index: 'lib/index', //主入口模块
+			}).use(['index','table', 'form', 'soulTable','pubilc'], function() {
+				
+				var $ = layui.$,
+					form = layui.form,
+					table = layui.table,
+					soulTable = layui.soulTable,
+					pubilc = layui.pubilc,
+					tool = pubilc.tool;
+				/****************************************初始化*******************************************/
+				//引入模板页
+				$("#component").load("../public/components.html");
+				
+				tool.init({
+					id:'LAY-user-manage',
+					fieldJson:{'id':tool.getMethod('id')},
+					height:560
+				});
+				
+				/****************************************数据获取绑定*******************************************/
+				// 后台分页
+				tool.tableAjax({
+					url: 'user/info', //模拟接口
+					data:{id:tool.getMethod('id')},
+					where:{id:tool.getMethod('id')},
+					cols: [[
+						{type: 'checkbox',fixed: 'left'},
+						{field: 'id',width: 60,title: 'ID',sort: true}, 
+						{field: 'user_name',width: 100,title: '账号名称'}, 
+						{field: 'mobile',width: 120,title: '手机号'},
+						{field: 'my_invite_code',width: 120,title: '我的邀请码'},
+						{field: 'amount',width: 100,title: '余额'},
+						{field: 'basicinfo_name',width: 100,title: '姓名'},
+						{field: 'basicinfo_gender',width: 100,title: '性别'},
+						{field: 'basicinfo_marriage',width: 100,title: '婚姻状态'},
+						{field: 'basicinfo_birth_addr',width: 100,title: '籍贯'},
+						{field: 'basicinfo_postal_addr',width: 180,title: '家庭住址'},
+						{field: 'basicinfo_id_number',width: 100,title: '身份证号'},
+						{field: 'basicinfo_email',width: 100,title: '邮箱'},
+						
+						{field: 'bankinfo_baknumber',width: 120,title: '银行卡账号'},
+						{field: 'bankinfo_phone',width: 100,title: '银行预留手机号'},
+						{field: 'bankinfo_phone',width: 100,title: '银行预留手机号'},
+						
+						{field: 'work_work_state',width: 100,title: '工作性质'},
+						{field: 'work_company_name',width: 120,title: '公司名称'},
+						{field: 'work_industry_type',width: 120,title: '产业类型'},
+						{field: 'work_position',width: 120,title: '工作职位'},
+						{field: 'work_work_year',width: 120,title: '工作年限'},
+						
+//						{field: 'shuiwu_guojia',width: 120,title: '税务国家'},
+//						{field: 'shuiwu_shuiwubianhao',width: 120,title: '税务编号'},
+						
+						{field: 'otherinfo_zhanghuleixing',width: 120,title: '账户类型'},
+						
+						{field: 'invesexp_gupiao',width: 120,title: '投资经验-股票'},
+						{field: 'invesexp_zhaiquan',width: 120,title: '投资经验-债券'},
+						{field: 'invesexp_qiquan',width: 120,title: '投资经验-期权'},
+						{field: 'invesexp_qizhi',width: 120,title: '投资经验-期指'},
+						{field: 'invesexp_gupiaoqiquan',width: 120,title: '投资经验-股票期权'},
+						{field: 'invesexp_huhuijijin',width: 120,title: '投资经验-互惠基金'},
+						{field: 'invesexp_yanshengquanzheng',width: 120,title: '投资经验-衍生权证'},
+						{field: 'invesexp_yanshengpin',width: 120,title: '投资经验-衍生品'},
+//						{field: 'disId',width: 100,title: '县',hide:true},
+//						{field: 'address',width: 220,title: '祥地地址'},
+//						{field: 'isDefault', title:'是否默认', templet: '#isDefaultTpl', width: 100, align: 'center'},
+						
+//						{title: '操作',width: 150,align: 'center',fixed:'right',toolbar: '#table-useradmin-webuser'}
+					]],
+					handleData: function(res){
+						var t = {};
+						try{
+							var items = res.data
+							var datas = [];
+							var basicinfo = items.basicinfo;
+							var bankinfo = items.bankinfo;
+							var work = items.work;
+							var shuiwu = items.shuiwu;
+							var otherinfo = items.otherinfo;
+							var invesexp = items.invesexp;
+							//基本信息
+							for(k in basicinfo){
+								items['basicinfo_'+k] = basicinfo[k];
+							}
+							//银行卡信息
+							for(k in bankinfo){
+								items['bankinfo_'+k] = bankinfo[k];
+							}
+							//工作状态
+							for(k in work){
+								items['work_'+k] = work[k];
+							}
+							//税务
+							for(k in shuiwu){
+								items['shuiwu_'+k] = shuiwu[k];
+							}
+							//其他信息
+							for(k in otherinfo){
+								items['otherinfo_'+k] = otherinfo[k];
+							}
+							//投资经验
+							for(k in invesexp){
+								items['invesexp_'+k] = invesexp[k];
+							}
+							
+							datas.push(items);
+							
+							t.code=res.code;t.msg = res.msg;t.count = datas.length;t.data = datas;
+//								t.data = opt.handleRes(t.data)
+						}catch{
+							t.code=-1;
+						}
+						return t;
+						/*************************************/
+		    		},
+				})
+			});
+		</script>
+	</body>
+
+</html>
